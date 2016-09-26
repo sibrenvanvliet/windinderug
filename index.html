@@ -1,23 +1,139 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		
+		<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 		<script src="test.js"></script>
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
-
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="skobbler-2.0.min.js"></script>
 
 		<style>
 		#map {
-				height: 500px;
+			height: 100%;
+		}
+		
+		.override-margin {
+			margin-left: 0px;
+			margin-right: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			width: 100%;
+			height: 85%;
+		}
+		
+		.fullwidth {
+			width: 100%;
 		}
 		</style>
 	</head>
 	<body>
-		Wind in de RUG: Weather adaptive cycling
+		<!-- Header with the brand name -->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">Wind in de RUG: Weather adaptive cycling</a>
+				</div>
+			</div>
+		</nav>
 		
-		<div id="map"></div>
+		<div class="row override-margin">
+			<div class="col-md-4" id="routeplanpane">
+				<!-- Page 1: User enters route points -->
+				<div id="routeplanpage1">
+					<form>
+						<div class="form-group">
+							<label for="startend">Start/end location</label>
+							<input type="text" class="form-control" id="startend" placeholder="Ex. Grote Markt, Groningen">
+						</div>
+						<div class="form-group">
+							<label for="via1">Via 1</label>
+							<input type="text" class="form-control" id="via1" placeholder="Ex. Winsum">
+						</div>
+						<div class="form-group">
+							<label for="via2">Via 2</label>
+							<input type="text" class="form-control" id="via2" placeholder="Ex. Ten Boer">
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<button type="button" class="btn btn-link" onClick="addVia()">Add via</button>
+							</div>
+							<div class="col-md-3">
+								<button type="button" class="btn btn-link" onClick="resetForm()">Reset form</button>
+							</div>
+							<div class="col-md-3"></div>
+							<div class="col-md-3">
+								<button type="button" class="btn btn-primary" onClick="gotoPage(2)">Plan route</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+				<!-- Page 2: User enters start time and speed -->
+				<div id="routeplanpage2">
+					<form>
+						<div class="form-group">
+							<label for="starttime">Start time</label>
+							<input type="text" class="form-control" id="starttime" placeholder="18:00">
+						</div>
+						<div class="form-group">
+							<label for="speed">Expected average speed</label>
+							<div class="input-group">
+								<input type="number" class="form-control" value="18" id="speed" aria-describedby="basic-addon2">
+								<span class="input-group-addon" id="speed2">km/h</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<button type="button" class="btn btn-link" onClick="gotoPage(1)">Back</button>
+							</div>
+							<div class="col-md-3">
+								<button type="button" class="btn btn-link" onClick="resetForm()">Reset form</button>
+							</div>
+							<div class="col-md-3"></div>
+							<div class="col-md-3">
+								<button type="button" class="btn btn-primary" onClick="gotoPage(3)">Optimise</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+				<!-- Page 3: Optimisation results -->
+				<div id="routeplanpage3">
+					<form>
+						<h2>Your route has been optimised.</h2>
+						
+						<div class="progress">
+							<div class="progress-bar progress-bar-success" style="width: 30%">
+								30% tailwind
+							</div>
+							<div class="progress-bar progress-bar-warning" style="width: 50%">
+								50% sidewind
+							</div>
+							<div class="progress-bar progress-bar-danger" style="width: 20%">
+								20% headwind
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-3">
+								<button type="button" class="btn btn-link" onClick="gotoPage(2)">Back</button>
+							</div>
+							<div class="col-md-3"></div>
+							<div class="col-md-6">
+								<button type="button" class="btn btn-primary disabled">Download route to device</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div id="map"></div>
+			</div>
+		</div>
 		
 		<script>
 			var map = L.skobbler.map('map', {
@@ -34,8 +150,8 @@
         zoomControl: true,
         zoomControlPosition: 'top-left',
 
-        center: [52.52112, 13.40554],
-        zoom: 12
+        center: [53.240449, 6.536370],
+        zoom: 10
 			});
 		</script>
 	</body>
