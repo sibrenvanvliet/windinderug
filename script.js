@@ -33,8 +33,6 @@ function gotoPage(page) {
 	$("#routeplanpage" + page).show();
 }
 
-var skobblerRouteRequest = "http://" + skobblerKey + ".tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/" + skobblerKey + "?";
-
 function geocodeRequest(address) {
 	address = address.split(' ').join('+');
 	var geocode = JSON.parse(httpGet("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + googleKey));
@@ -57,6 +55,7 @@ function planRoute() {
 	endcoordinates.lat = coordinates[0].lat+0.1;
 	endcoordinates.lng = coordinates[0].lng+0.1;
 	
+	/*
 	var routerequest = skobblerRouteRequest
 		+ "start=" + coordinates[0].lat + "," + coordinates[0].lng
 		+ "&dest=" + endcoordinates.lat + "," + endcoordinates.lng
@@ -65,6 +64,13 @@ function planRoute() {
 		+ "&profile=bicycle"
 		+ "&advice=yes"
 		+ "&points=yes";
+	*/
+	
+	var routerequest = "http://" + skobblerKey + ".tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/" + skobblerKey + "?"
+		+ "start=" + coordinates[0].lat + "," + coordinates[0].lng
+		+ "&dest=" + coordinates[1].lat + "," + coordinates[1].lng
+		+ "&profile=bicycle";
 	
 	console.log(httpGet(routerequest));
+	//console.log(routerequest);
 }
