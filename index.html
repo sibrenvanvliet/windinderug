@@ -57,14 +57,18 @@
 						</div>
 						<div class="form-group">
 							<label for="via2">Via 2</label>
-							<input type="text" class="form-control" id="via2" placeholder="Ex. Ten Boer">
+							<input type="text" class="form-control" id="via2" placeholder="Ex. Middelstum">
+						</div>
+						<div class="form-group">
+							<label for="via3">Via 3</label>
+							<input type="text" class="form-control" id="via3" placeholder="Ex. Ten Boer">
 						</div>
 						<div class="row">
 							<div class="col-md-3">
-								<button type="button" class="btn btn-link" onClick="addVia()">Add via</button>
+								<!--button type="button" class="btn btn-link" onClick="addVia()">Add via</button-->
 							</div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-link" onClick="resetForm()">Reset form</button>
+								<!--button type="button" class="btn btn-link" onClick="resetForm()">Reset form</button-->
 							</div>
 							<div class="col-md-3"></div>
 							<div class="col-md-3">
@@ -93,11 +97,11 @@
 								<button type="button" class="btn btn-link" onClick="gotoPage(1)">Back</button>
 							</div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-link" onClick="resetForm()">Reset form</button>
+								<!--button type="button" class="btn btn-link" onClick="resetForm()">Reset form</button-->
 							</div>
 							<div class="col-md-3"></div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" onClick="gotoPage(3)">Optimise</button>
+								<button type="button" class="btn btn-primary" onClick="gotoPage(3); optimiseWeather()">Optimise</button>
 							</div>
 						</div>
 					</form>
@@ -126,7 +130,7 @@
 							</div>
 							<div class="col-md-3"></div>
 							<div class="col-md-6">
-								<button type="button" class="btn btn-primary disabled">Download route to device</button>
+								<!--button type="button" class="btn btn-primary disabled">Get directions</button-->
 							</div>
 						</div>
 					</form>
@@ -140,7 +144,7 @@
 		<!-- Skobbler map configuration -->
 		<script>
 			var map = L.skobbler.map('map', {
-				apiKey: null,//'1071b1a66d18a54cc861930a397ed442',
+				apiKey: '1071b1a66d18a54cc861930a397ed442',
 				mapStyle: 'bike',
         bicycleLanes: true,
         onewayArrows: true,
