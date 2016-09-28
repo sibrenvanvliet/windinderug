@@ -82,11 +82,11 @@ function planRoute() {
 	
 	console.log(skobblerResponse);
 	
-	route = skobblerResponse.route.routepoints;
+	routeArray = skobblerResponse.route.routepoints;
 	
 	numberOfCoordinates = 40;
 	
-	stepsize = Math.floor(route.length / (numberOfCoordinates + 1));
+	stepsize = Math.floor(routeArray.length / (numberOfCoordinates + 1));
 	
 	routeLength = skobblerResponse.route.routelength / 1000;
 	
@@ -94,7 +94,7 @@ function planRoute() {
 	
 	coordinates = [];
 	for (var i = 0; i < numberOfCoordinates; i++) {
-		var coord = route[i * stepsize];
+		var coord = routeArray[i * stepsize];
 		coordinates.push({"lat": coord.y, "lng": coord.x});
 	}
 }
