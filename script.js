@@ -320,10 +320,11 @@ function calculateWindShares() {
 	return {"tail": percentTail, "head": percentHead, "cross": percentCross};
 }
 
-function displayWindOptimisationResults(results) {
-	console.log(results.tail + "% tailwind");
-	console.log(results.head + "% headwind");
-	console.log(results.cross + "% crosswind");
+function displayWindOptimisationResults(prefix, heading, wind) {
+	$(prefix + 'Dir').html("Recommended: Start cycling in the direction of " + heading);
+	$(prefix + 'Tail').html(wind.tail + "% tailwind").css("width", wind.tail + "%");
+	$(prefix + 'Cross').html(wind.cross + "% crosswind").css("width", wind.cross + "%");
+	$(prefix + 'Head').html(wind.head + "% headwind").css("width", wind.head + "%");
 }
 
 // Returns true if route1 wins, returns false if route2 wins
@@ -364,12 +365,29 @@ function optimiseWeather () {
 	windinfos.push(windinfos[0]);
 	
 	// Display results
-	var originalDirection = calculateWindShares();
+	var originalDirectionWinds = calculateWindShares();
 	coordinates.reverse();
 	windinfos.reverse();
-	var reversedDirection = calculateWindShares();
+	var reversedDirectionWinds = calculateWindShares();
 	
-	var originalWins = originalWasBestRoute(originalDirection, reversedDirection);
+	var originalWins = originalWasBestRoute(originalDirectionWinds, reversedDirectionWinds);
+	
+	if (originalWins) {
+		recHeading = vias[0];
+		altHeading = vias[vias.length - 1];
+		recWind = originalDirectionWinds;
+		altWind = reversedDirectionWinds;
+	} else {
+		altHeading = vias[0];
+		recHeading = vias[vias.length - 1];
+		altWind = originalDirectionWinds;
+		recWind = reversedDirectionWinds;
+	}
+	
+	displayWindOptimisationResults('rec', recHeading, recWind);
+	displayWindOptimisationResults('alt', altHeading, altWind);
+	
+	/*
 	var originalStartHeading = vias[0];
 	var reverseStartHeading = vias[vias.length - 1];
 	
@@ -385,4 +403,5 @@ function optimiseWeather () {
 
 	console.log("\nIf you start by cycling in the direction of " + reverseStartHeading);
 	displayWindOptimisationResults(reversedDirection);
+	*/
 }
