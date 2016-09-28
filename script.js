@@ -2,6 +2,7 @@ var skobblerKey = "1071b1a66d18a54cc861930a397ed442";
 var googleKey = "AIzaSyAFkA1mS07PF2d_B9nIfgoGdBamtMAolQI";
 
 function httpGet(theUrl, cors) {
+	/*
 	//console.log(theUrl);
 	var xmlHttp = new XMLHttpRequest();
 	
@@ -9,6 +10,9 @@ function httpGet(theUrl, cors) {
 	//xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 	xmlHttp.send( null );
 	return xmlHttp.responseText;
+	*/
+	console.log(theUrl);
+  $.get('http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle', function(data) {console.log(data););
 }
 
 function weatherForecastLatLong(lat, lon) {
@@ -184,6 +188,7 @@ distances.push(6.6);
 /***** WEATHER DATA GATHERING *****/
 
 // Gather wind information from coordinates using OpenWeatherMap API
+/*
 var retries = 0;
 var windinfos = [];
 for (var i = 0; i < coordinates.length - 1; i++) {
@@ -209,6 +214,7 @@ for (var i = 0; i < coordinates.length - 1; i++) {
 	//console.log(weatherResult);
 }
 windinfos.push(windinfos[0]);
+*/
 
 /*
 windinfos.push({"deg": 225,"speed": 7.71});
