@@ -82,7 +82,9 @@ function planRoute() {
 	
 	console.log(skobblerResponse);
 	
-	routeArray = skobblerResponse.route.routepoints;
+	var routeArray = skobblerResponse.route.routepoints;
+	console.log(skobblerResponse.route.routepoints);
+	console.log(routeArray);
 	
 	numberOfCoordinates = 40;
 	
