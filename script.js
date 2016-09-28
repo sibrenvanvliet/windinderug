@@ -97,7 +97,7 @@ function planRoute() {
 	
 	distancePerStep = routeLength / numberOfCoordinates;
 	
-	console.log(routeArray);
+	//console.log(routeArray);
 	
 	coordinates = [];
 	for (var i = 0; i < numberOfCoordinates; i++) {
@@ -144,7 +144,7 @@ function dateTimeToEpoch(dateTime) {
 function windAtTime(windIndex, time) {
 	time = dateTimeToEpoch(time);
 	var windinfo = windinfos[windIndex];
-	console.log(windinfo);
+	//console.log(windinfo);
 	var firstTime = parseInt(windinfo.list[0].dt);
 	var firstTimeIndex = 0;
 	
@@ -224,8 +224,8 @@ function calculateWindShares() {
 	return {"tail": percentTail, "head": percentHead, "cross": percentCross};
 }
 
-function displayWindOptimisationResults(label, prefix, heading, wind) {
-	$('#' + prefix + 'Dir').html(label + ": Start cycling in the direction of " + heading);
+function displayWindOptimisationResults(prefix, heading, wind) {
+	$('#' + prefix + 'Dir').html(": Start cycling in the direction of " + heading);
 	$('#' + prefix + 'Tail').html(wind.tail + "% tailwind").css("width", wind.tail + "%");
 	$('#' + prefix + 'Cross').html(wind.cross + "% crosswind").css("width", wind.cross + "%");
 	$('#' + prefix + 'Head').html(wind.head + "% headwind").css("width", wind.head + "%");
@@ -263,7 +263,7 @@ function optimiseWeather () {
 		var point = coordinates[i];
 		weatherResult = weatherForecastLatLong(point.lat, point.lng);
 		weatherResult = JSON.parse(weatherResult);
-		console.log(weatherResult);
+		//console.log(weatherResult);
 
 		if (weatherResult.cod !== "200" && retries < 20) {
 			console.log("Wind location " + i + " not found! Retrying...");
@@ -280,7 +280,7 @@ function optimiseWeather () {
 	windinfos.push(windinfos[0]);
 	
 	// Display results
-	//routeDuration = addTimeToDateTime({"yy": 0, "mm": 0, "dd": 0, "h": 0, "m": 0}, {"h": 0, "m": Math.round(routeLength / avgSpeed * 60)});
+	routeDuration = addTimeToDateTime({"yy": 0, "mm": 0, "dd": 0, "h": 0, "m": 0}, {"h": 0, "m": Math.round(routeLength / avgSpeed * 60)});
 	
 	var originalDirectionWinds = calculateWindShares();
 	coordinates.reverse();
@@ -301,8 +301,8 @@ function optimiseWeather () {
 		recWind = reversedDirectionWinds;
 	}
 	
-	displayWindOptimisationResults("Recommended", 'rec', recHeading, recWind);
-	displayWindOptimisationResults("Alternative", 'alt', altHeading, altWind);
+	displayWindOptimisationResults('rec', recHeading, recWind);
+	displayWindOptimisationResults('alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
-	//$("#routeInfo").html("Distance: " + routelength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
+	$("#routeInfo").html("Distance: " + routelength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
 }
