@@ -244,6 +244,9 @@ function angleBetweenTwoPoints(point1, point2) {
 }
 
 function dateTimeToEpoch(dateTime) {
+	epochDT = 1475053200;
+	epochDateTime = {"yy": 2016, "mm": 9, "dd": 28, "h": 9, "m" : 0};
+	
 	secondsSinceEpoch = dateTime.m * 60
 		+ (dateTime.h - 9) * 60 * 60
 		+ (dateTime.dd - 28) * 60 * 60 * 24;
@@ -336,8 +339,8 @@ function calculateWindShares() {
 	return {"tail": percentTail, "head": percentHead, "cross": percentCross};
 }
 
-function displayWindOptimisationResults(prefix, heading, wind) {
-	$('#' + prefix + 'Dir').html("Recommended: Start cycling in the direction of " + heading);
+function displayWindOptimisationResults(label, prefix, heading, wind) {
+	$('#' + prefix + 'Dir').html(label + ": Start cycling in the direction of " + heading);
 	$('#' + prefix + 'Tail').html(wind.tail + "% tailwind").css("width", wind.tail + "%");
 	$('#' + prefix + 'Cross').html(wind.cross + "% crosswind").css("width", wind.cross + "%");
 	$('#' + prefix + 'Head').html(wind.head + "% headwind").css("width", wind.head + "%");
@@ -350,12 +353,23 @@ function originalWasBestRoute(route1, route2) {
 
 function optimiseWeather () {
 	// TIME STUFF
-	epochDT = 1475053200;
-	epochDateTime = {"yy": 2016, "mm": 9, "dd": 28, "h": 9, "m" : 0};
-
-	startTime = {"yy": 2016, "mm": 9, "dd": 29, "h": 5, "m" : 0};
+	startTimeH = parseInt($("#starttimeH").val());
+	startTimeM = parseInt($("#starttimeM").val());
+	
+	var currentDate = new Date();
+	var currentDT = {"yy": currentDate.getUTCFullYear(), "mm": currentDate.getUTCMonth() + 1, "dd": currentDate.getUTCDate(), "h": currentDate.getUTCHours(), "m" : currentDate.getUTCMinutes()};
+	
+	startTime = {"yy": currentDT.yy, "mm": currentDT.mm, "dd": currentDT.dd, "h": startTimeH, "m" : startTimeM};
+	if (dateTimeToEpoch(currentDT) > dateTimeToEpoch(startTime) - 7200) {
+		startTime.dd++;
+	}
+	startTime.h -= 2;
+	
+	console.log(currentDT);
+	console.log(startTime);
+	
 	currentTime = startTime;
-	avgSpeed = $("#speed").val();
+	avgSpeed = parseInt($("#speed").val());
 	
 	// Gather wind information from coordinates using OpenWeatherMap API
 	var retries = 0;
@@ -400,8 +414,9 @@ function optimiseWeather () {
 		recWind = reversedDirectionWinds;
 	}
 	
-	displayWindOptimisationResults('rec', recHeading, recWind);
-	displayWindOptimisationResults('alt', altHeading, altWind);
+	displayWindOptimisationResults("Recommended", 'rec', recHeading, recWind);
+	displayWindOptimisationResults("Alternative", 'alt', altHeading, altWind);
+	$("#msgOptim").html("Your route has been optimised.");
 	
 	/*
 	var originalStartHeading = vias[0];
