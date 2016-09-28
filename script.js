@@ -225,7 +225,7 @@ function calculateWindShares() {
 }
 
 function displayWindOptimisationResults(prefix, heading, wind) {
-	$('#' + prefix + 'Dir').html(": Start cycling in the direction of " + heading);
+	$('#' + prefix + 'Dir').html("Start cycling in the direction of " + heading);
 	$('#' + prefix + 'Tail').html(wind.tail + "% tailwind").css("width", wind.tail + "%");
 	$('#' + prefix + 'Cross').html(wind.cross + "% crosswind").css("width", wind.cross + "%");
 	$('#' + prefix + 'Head').html(wind.head + "% headwind").css("width", wind.head + "%");
@@ -304,5 +304,5 @@ function optimiseWeather () {
 	displayWindOptimisationResults('rec', recHeading, recWind);
 	displayWindOptimisationResults('alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
-	$("#routeInfo").html("Distance: " + routelength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
+	$("#routeInfo").html("Distance: " + routeLength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
 }
