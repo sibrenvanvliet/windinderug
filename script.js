@@ -12,7 +12,7 @@ function httpGet(theUrl, cors) {
 	return xmlHttp.responseText;
 	*/
 	console.log(theUrl);
-  $.get('http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle', function(data) {console.log(data););
+  $.get('http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle', function(data) {console.log(data);});
 }
 
 function weatherForecastLatLong(lat, lon) {
