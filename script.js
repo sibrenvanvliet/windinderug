@@ -1,9 +1,12 @@
 var skobblerKey = "1071b1a66d18a54cc861930a397ed442";
 var googleKey = "AIzaSyAFkA1mS07PF2d_B9nIfgoGdBamtMAolQI";
 
-function httpGet(theUrl) {
+function httpGet(theUrl, cors) {
+	//console.log(theUrl);
 	var xmlHttp = new XMLHttpRequest();
+	
 	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+	//xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 	xmlHttp.send( null );
 	return xmlHttp.responseText;
 }
@@ -11,13 +14,13 @@ function httpGet(theUrl) {
 function weatherForecastLatLong(lat, lon) {
 	var key = "53737e31378c16da320326248ae3df11";
 	var url = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&APPID=" + key;
-	return httpGet(url);
+	return httpGet(url, false);
 }
 
 function weatherLatLong(lat, lon) {
 	var key = "53737e31378c16da320326248ae3df11";
 	var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=" + key;
-	return httpGet(url);
+	return httpGet(url, false);
 }
 
 //console.log(weatherForecastLatLong(53.330986, 6.518513));
@@ -37,7 +40,8 @@ function gotoPage(page) {
 
 function geocodeRequest(address) {
 	address = address.split(' ').join('+');
-	var geocode = JSON.parse(httpGet("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + googleKey));
+	var geocode = JSON.parse(httpGet("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + googleKey, false));
+	console.log(geocode);
 	return geocode.results[0].geometry.location;
 }
 
@@ -48,16 +52,16 @@ function planRoute() {
 	via1 = $("#via1").val();
 	via2 = $("#via2").val();
 	
-	var coordinates = [];
+	var asdf = [];
 	
-	coordinates.push(geocodeRequest(startend));
-	coordinates.push(geocodeRequest(via1));
-	coordinates.push(geocodeRequest(via2));
+	asdf.push(geocodeRequest(startend));
+	asdf.push(geocodeRequest(via1));
+	//asdf.push(geocodeRequest(via2));
 	
 	
 	var endcoordinates = {};
-	endcoordinates.lat = coordinates[0].lat+0.1;
-	endcoordinates.lng = coordinates[0].lng+0.1;
+	endcoordinates.lat = asdf[0].lat+0.1;
+	endcoordinates.lng = asdf[0].lng+0.1;
 	
 	/*
 	var routerequest = skobblerRouteRequest
@@ -71,11 +75,11 @@ function planRoute() {
 	*/
 	
 	var routerequest = "http://" + skobblerKey + ".tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/" + skobblerKey + "?"
-		+ "start=" + coordinates[0].lat + "," + coordinates[0].lng
-		+ "&dest=" + coordinates[1].lat + "," + coordinates[1].lng
+		+ "start=" + asdf[0].lat + "," + asdf[0].lng
+		+ "&dest=" + asdf[1].lat + "," + asdf[1].lng
 		+ "&profile=bicycle";
 	
-	console.log(httpGet(routerequest));
+	console.log(httpGet(routerequest, true));
 	//console.log(routerequest);
 }
 
@@ -83,7 +87,6 @@ var coordinates = [];
 // Rondje Amsterdam
 coordinates.push({"lat": 53.230883, "lng": 6.523121}); // Korrewegwijk
 coordinates.push({"lat": 53.261305, "lng": 6.397679});
-/*
 coordinates.push({"lat": 53.265829, "lng": 6.252694});
 coordinates.push({"lat": 53.255020, "lng": 6.122838});
 coordinates.push({"lat": 53.221569, "lng": 5.991301});
@@ -120,7 +123,6 @@ coordinates.push({"lat": 53.073156, "lng": 6.331768}); // Een
 coordinates.push({"lat": 53.155135, "lng": 6.369819});
 coordinates.push({"lat": 53.206443, "lng": 6.456753});
 coordinates.push({"lat": 53.230883, "lng": 6.523121});
-*/
 /*
 // Rondje Stedum
 coordinates.push({"lat": 53.231854, "lng": 6.529080});
@@ -141,7 +143,6 @@ coordinates.push({"lat": 52.186173, "lng": 4.417890});
 
 var distances = [];
 distances.push(10.0);
-/*
 distances.push(10.0);
 distances.push(10.0);
 distances.push(10.0);
@@ -178,7 +179,6 @@ distances.push(10.0);
 distances.push(10.0);
 distances.push(10.0);
 distances.push(6.6);
-*/
 
 /***** We now have a list of coordinates and the road distance between them *****/
 /***** WEATHER DATA GATHERING *****/
@@ -186,11 +186,11 @@ distances.push(6.6);
 // Gather wind information from coordinates using OpenWeatherMap API
 var retries = 0;
 var windinfos = [];
-for (var i = 0; i < coordinates.length; i++) {
+for (var i = 0; i < coordinates.length - 1; i++) {
 	var point = coordinates[i];
 	weatherResult = weatherForecastLatLong(point.lat, point.lng);
 	weatherResult = JSON.parse(weatherResult);
-	console.log(weatherResult);
+	//console.log(weatherResult);
 	
 	if (weatherResult.cod !== "200" && retries < 20) {
 		console.log("Wind location " + i + " not found! Retrying...");
@@ -202,11 +202,13 @@ for (var i = 0; i < coordinates.length; i++) {
 		continue;
 	}
 	
+	windinfos.push(weatherResult);
+	
 	//console.log('{"deg":' + weatherResult.wind.deg + ',"speed":' + weatherResult.wind.speed + '}');
 	//windinfos.push({"deg": weatherResult.wind.deg,"speed": weatherResult.wind.speed});
 	//console.log(weatherResult);
 }
-//windinfos.push(windinfos[0]); deze zo weer terug!!!!!!!
+windinfos.push(windinfos[0]);
 
 /*
 windinfos.push({"deg": 225,"speed": 7.71});
@@ -241,7 +243,6 @@ var currentTime = startTime;
 var avgSpeed = 20;
 
 function addTimeToDateTime(dateTime, time) {
-	
 	return {"yy": dateTime.yy, "mm": dateTime.mm, "dd": dateTime.dd, "h": (dateTime.h + time.h + Math.floor((dateTime.m + time.m) / 60)), "m": ((dateTime.m + time.m) % 60)}
 }
 
@@ -265,64 +266,119 @@ function angleBetweenTwoPoints(point1, point2) {
 	return angle;
 }
 
-function windBetweenTwoPoints(point1, point2, wind1, wind2, time) {
-	var roadangle = angleBetweenTwoPoints(point1, point2);
-	var avgwind = {"deg": ((wind1.deg + wind2.deg) / 2), "speed": ((wind1.speed + wind2.speed) / 2)};
+// Function returns, from the forecast list, the wind at a specific time
+function windAtTime(windIndex, time) {
+	time = dateTimeToEpoch(time);
+	var windinfo = windinfos[windIndex];
+	var firstTime = parseInt(windinfo.list[0].dt);
+	var firstTimeIndex = 0;
+	
+	if (time < firstTime) {
+		console.log("Current weather required!");
+		return {"deg": 0, "speed": 0};
+	}
+	
+	while (time - 10800 > firstTime) {
+		firstTime += 10800;
+		firstTimeIndex++;
+	}
+	
+	firstWeather = windinfo.list[firstTimeIndex];
+	secondWeather = windinfo.list[firstTimeIndex + 1];
+	gravitationToFirst = (time - firstTime) / 10800;
+	
+	winddegAtTime = firstWeather.wind.deg * (1.0 - gravitationToFirst) + secondWeather.wind.deg * gravitationToFirst;
+	windspeedAtTime = firstWeather.wind.speed * (1.0 - gravitationToFirst) + secondWeather.wind.speed * gravitationToFirst;
+	
+	return {"deg": winddegAtTime, "speed": windspeedAtTime};
+}
+
+function averageDegrees(deg1, deg2) {
+	if ((deg1 < 90 || deg1 > 270) && (deg2 < 90 || deg2 > 270)) {
+		return ((deg1 + deg2) % 360) / 2;
+	}
+	
+	return (deg1 + deg2) / 2;
+}
+
+// Returns the wind between two points at a certain time
+function windBetweenTwoPoints(firstIndex, time) {
+	var roadangle = angleBetweenTwoPoints(coordinates[firstIndex], coordinates[firstIndex + 1]);
+	var wind1 = windAtTime(firstIndex, time);
+	var wind2 = windAtTime(firstIndex + 1, time);
+	
+	var avgwind = {"deg": averageDegrees(wind1.deg, wind2.deg), "speed": ((wind1.speed + wind2.speed) / 2)};
 	
 	returnable = {"roaddeg": roadangle, "winddeg": avgwind.deg, "windspeed": avgwind.speed};
-	console.log(returnable);
+	//console.log(time);
+	//console.log(returnable);
 	return returnable;
 }
 
-var totalTail = 0.0;
-var totalHead = 0.0;
-var totalCross = 0.0;
+function calculateWindShares() {
+	var totalTail = 0.0;
+	var totalHead = 0.0;
+	var totalCross = 0.0;
 
-for (var i = 0; i < coordinates.length - 1; i++) {
-	var minutes = Math.round(distances[i] / avgSpeed * 60);
-	var middleTime = addTimeToDateTime(currentTime, {"h": 0, "m": Math.round(minutes / 2)});
-	currentTime = addTimeToDateTime(currentTime, {"h": 0, "m": minutes});
-	
-	console.log(dateTimeToEpoch(currentTime));
-	/*
-	
-	var degdiff = Math.round(point.roaddeg - point.winddeg + 360) % 360;
-	
-	if (degdiff > 135 && degdiff < 225) {
-		windType = "tailwind";
-		console.log(windType);
-		totalTail += point.windspeed;
-	} else if (degdiff < 45 || degdiff > 315) {
-		windType = "headwind";
-		console.log(windType);
-		totalHead += point.windspeed;
-	} else {
-		windType = "crosswind";
-		console.log(windType);
-		totalCross += point.windspeed;
+	for (var i = 0; i < coordinates.length - 1; i++) {
+		var minutes = Math.round(distances[i] / avgSpeed * 60);
+		var middleTime = addTimeToDateTime(currentTime, {"h": 0, "m": Math.round(minutes / 2)});
+		currentTime = addTimeToDateTime(currentTime, {"h": 0, "m": minutes});
+		
+		var point = windBetweenTwoPoints(i, middleTime);
+		
+		var degdiff = Math.round(point.roaddeg - point.winddeg + 360) % 360;
+		
+		if (degdiff > 135 && degdiff < 225) {
+			//windType = "tailwind";
+			//console.log(windType);
+			totalTail += distances[i] * point.windspeed;
+		} else if (degdiff < 45 || degdiff > 315) {
+			//windType = "headwind";
+			//console.log(windType);
+			totalHead += distances[i] * point.windspeed;
+		} else {
+			//windType = "crosswind";
+			//console.log(windType);
+			totalCross += distances[i] * point.windspeed;
+		}
 	}
-	*/
+	
+	var windSum = totalTail + totalHead + totalCross;
+	var percentTail = Math.round(100 * totalTail / windSum);
+	var percentHead = Math.round(100 * totalHead / windSum);
+	var percentCross = 100 - percentTail - percentHead;
+	
+	return {"tail": percentTail, "head": percentHead, "cross": percentCross};
 }
 
-var windSum = totalTail + totalHead + totalCross;
-var percentTail = Math.round(100 * totalTail / windSum);
-var percentHead = Math.round(100 * totalHead / windSum);
-var percentCross = 100 - percentTail - percentHead;
+function displayWindOptimisationResults(results) {
+	console.log(results.tail + "% tailwind");
+	console.log(results.head + "% headwind");
+	console.log(results.cross + "% crosswind");
+}
 
-console.log("\n");
-console.log(percentTail + "% tailwind");
-console.log(percentHead + "% headwind");
-console.log(percentCross + "% crosswind");
+var originalDirection = calculateWindShares();
+coordinates.reverse();
+windinfos.reverse();
+distances.reverse();
+var reversedDirection = calculateWindShares();
 
-//console.log(angleBetweenTwoPoints({"lat":39.099912, "lng":-94.581213}, {"lat":38.627089, "lng":-90.200203}));
-/*
-console.log("");
-console.log(angleBetweenTwoPoints({"lat": 1, "lng" : 0},{"lat": 1, "lng" : 2}));
-console.log(angleBetweenTwoPoints({"lat": 2, "lng" : 0},{"lat": 0, "lng" : 2}));
-console.log(angleBetweenTwoPoints({"lat": 2, "lng" : 1},{"lat": 0, "lng" : 1}));
-console.log(angleBetweenTwoPoints({"lat": 2, "lng" : 2},{"lat": 0, "lng" : 0}));
-console.log(angleBetweenTwoPoints({"lat": 1, "lng" : 2},{"lat": 1, "lng" : 0}));
-console.log(angleBetweenTwoPoints({"lat": 0, "lng" : 2},{"lat": 2, "lng" : 0}));
-console.log(angleBetweenTwoPoints({"lat": 0, "lng" : 1},{"lat": 2, "lng" : 1}));
-console.log(angleBetweenTwoPoints({"lat": 0, "lng" : 0},{"lat": 2, "lng" : 2}));
-*/
+// Returns true if route1 wins, returns false if route2 wins
+function originalWasBestRoute(route1, route2) {
+	return ((route1.tail - route2.tail) > (route1.head - route2.head));
+}
+
+var originalWins = originalWasBestRoute(originalDirection, reversedDirection);
+
+console.log("Recommended:");
+if (originalWins) {
+	console.log("Cycle in the direction you inputted.")
+	
+}
+
+console.log("If you cycle in your direction:");
+displayWindOptimisationResults(originalDirection);
+
+console.log("\nIf you cycle in the reverse direction:");
+displayWindOptimisationResults(reversedDirection);
