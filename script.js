@@ -81,7 +81,7 @@ function planRoute() {
 		+ "&advice=yes"
 		+ "&points=yes";
 	
-	skobblerResponse = JSON.parse(httpGet(routerequest, false));
+	var skobblerResponse = JSON.parse(httpGet(routerequest, false));
 	
 	console.log(skobblerResponse);
 	
@@ -144,6 +144,7 @@ function dateTimeToEpoch(dateTime) {
 function windAtTime(windIndex, time) {
 	time = dateTimeToEpoch(time);
 	var windinfo = windinfos[windIndex];
+	console.log(windinfo);
 	var firstTime = parseInt(windinfo.list[0].dt);
 	var firstTimeIndex = 0;
 	
@@ -262,7 +263,7 @@ function optimiseWeather () {
 		var point = coordinates[i];
 		weatherResult = weatherForecastLatLong(point.lat, point.lng);
 		weatherResult = JSON.parse(weatherResult);
-		//console.log(weatherResult);
+		console.log(weatherResult);
 
 		if (weatherResult.cod !== "200" && retries < 20) {
 			console.log("Wind location " + i + " not found! Retrying...");
