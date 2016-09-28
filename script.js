@@ -11,17 +11,12 @@ function httpGet(theUrl, cors) {
 	xmlHttp.send( null );
 	return xmlHttp.responseText;
 	*/
-  $.get(theUrl, function(data) { console.log(data); });
+  return $.get(theUrl, function(data) { return data; });
 }
 
 //httpGet("//1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle" , false);
 
-$(document).ready(function() {
-	console.log("hooooooi");
-  $.get('http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle', function(data) {
-console.log(data);
-});
-  });
+console.log(httpGet('http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle'));
 
 function weatherForecastLatLong(lat, lon) {
 	var key = "53737e31378c16da320326248ae3df11";
