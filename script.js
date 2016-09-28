@@ -49,7 +49,7 @@ function drawRoute(routeArr) {
 		coords.push(coord);
 	}
 	
-	var polyline = L.polyline(coords, {color: 'red'}).addTo(map);
+	var polyline = L.polyline(coords, {color: 'blue'}).addTo(map);
 	map.fitBounds(polyline.getBounds());
 }
 
