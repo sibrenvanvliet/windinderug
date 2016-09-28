@@ -321,10 +321,10 @@ function calculateWindShares() {
 }
 
 function displayWindOptimisationResults(prefix, heading, wind) {
-	$(prefix + 'Dir').html("Recommended: Start cycling in the direction of " + heading);
-	$(prefix + 'Tail').html(wind.tail + "% tailwind").css("width", wind.tail + "%");
-	$(prefix + 'Cross').html(wind.cross + "% crosswind").css("width", wind.cross + "%");
-	$(prefix + 'Head').html(wind.head + "% headwind").css("width", wind.head + "%");
+	$('#' + prefix + 'Dir').html("Recommended: Start cycling in the direction of " + heading);
+	$('#' + prefix + 'Tail').html(wind.tail + "% tailwind").css("width", wind.tail + "%");
+	$('#' + prefix + 'Cross').html(wind.cross + "% crosswind").css("width", wind.cross + "%");
+	$('#' + prefix + 'Head').html(wind.head + "% headwind").css("width", wind.head + "%");
 }
 
 // Returns true if route1 wins, returns false if route2 wins
