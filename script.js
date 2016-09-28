@@ -108,6 +108,8 @@ function planRoute() {
 	
 	distancePerStep = routeLength / numberOfCoordinates;
 	
+	console.log(routeArray);
+	
 	coordinates = [];
 	for (var i = 0; i < numberOfCoordinates; i++) {
 		var coord = routeArray[i * stepsize];
