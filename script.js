@@ -279,7 +279,7 @@ function optimiseWeather () {
 	windinfos.push(windinfos[0]);
 	
 	// Display results
-	routeDuration = addTimeToDateTime({"yy": 0, "mm": 0, "dd": 0, "h": 0, "m": 0}, {"h": 0, "m": Math.round(routeLength / avgSpeed * 60)});
+	//routeDuration = addTimeToDateTime({"yy": 0, "mm": 0, "dd": 0, "h": 0, "m": 0}, {"h": 0, "m": Math.round(routeLength / avgSpeed * 60)});
 	
 	var originalDirectionWinds = calculateWindShares();
 	coordinates.reverse();
@@ -303,5 +303,5 @@ function optimiseWeather () {
 	displayWindOptimisationResults("Recommended", 'rec', recHeading, recWind);
 	displayWindOptimisationResults("Alternative", 'alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
-	$("#routeInfo").html("Distance: " + routelength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
+	//$("#routeInfo").html("Distance: " + routelength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
 }
