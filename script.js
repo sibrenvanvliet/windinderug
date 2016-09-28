@@ -51,7 +51,7 @@ function geocodeRequest(address) {
 }
 
 function drawRoute(routeArr) {
-	var coordss = [];
+	var coords = [];
 	
 	for (var i = 0; i < routeArr.length; i++) {
 		var coord = [];
@@ -60,7 +60,7 @@ function drawRoute(routeArr) {
 		coords.push(coord);
 	}
 	
-	var polyline = L.polyline(coordss, {color: 'red'}).addTo(map);
+	var polyline = L.polyline(coords, {color: 'red'}).addTo(map);
 	map.fitBounds(polyline.getBounds());
 }
 
