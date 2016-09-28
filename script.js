@@ -2,19 +2,11 @@ var skobblerKey = "1071b1a66d18a54cc861930a397ed442";
 var googleKey = "AIzaSyAFkA1mS07PF2d_B9nIfgoGdBamtMAolQI";
 
 function httpGet(theUrl, cors) {
-	//console.log(theUrl);
 	var xmlHttp = new XMLHttpRequest();
-	
 	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-	//xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 	xmlHttp.send( null );
 	return xmlHttp.responseText;
-  //return $.get(theUrl, function(data) { return data; });
 }
-
-//httpGet("//1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle" , false);
-
-//console.log(httpGet('http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?start=53.2431482,6.4081044&dest=53.3016754,6.5998288&profile=bicycle'));
 
 function weatherForecastLatLong(lat, lon) {
 	var key = "53737e31378c16da320326248ae3df11";
@@ -27,9 +19,6 @@ function weatherLatLong(lat, lon) {
 	var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=" + key;
 	return httpGet(url, false);
 }
-
-//console.log(weatherForecastLatLong(53.330986, 6.518513));
-//console.log(httpGet("http://api.openweathermap.org/data/2.5/forecast?lat=53.330986&lon=6.518513&appid=53737e31378c16da320326248ae3df11"));
 
 $(document).ready(function(){
 	$("#routeplanpage2").hide();
@@ -116,110 +105,6 @@ function planRoute() {
 		coordinates.push({"lat": coord.y, "lng": coord.x});
 	}
 }
-	
-	
-	// Rondje Amsterdam
-	/*
-	coordinates.push({"lat": 53.230883, "lng": 6.523121}); // Korrewegwijk
-	coordinates.push({"lat": 53.261305, "lng": 6.397679});
-	coordinates.push({"lat": 53.265829, "lng": 6.252694});
-	coordinates.push({"lat": 53.255020, "lng": 6.122838});
-	coordinates.push({"lat": 53.221569, "lng": 5.991301});
-	coordinates.push({"lat": 53.223078, "lng": 5.840853}); // Camminghabruen
-	coordinates.push({"lat": 53.206105, "lng": 5.695556});
-	coordinates.push({"lat": 53.187111, "lng": 5.551941});
-	coordinates.push({"lat": 53.171032, "lng": 5.416849});
-	coordinates.push({"lat": 53.089963, "lng": 5.370761});
-	coordinates.push({"lat": 53.042436, "lng": 5.247926}); // Makkum
-	coordinates.push({"lat": 52.983336, "lng": 5.135314});
-	coordinates.push({"lat": 52.921999, "lng": 5.036997});
-	coordinates.push({"lat": 52.838503, "lng": 5.024240});
-	coordinates.push({"lat": 52.759837, "lng": 5.040955});
-	coordinates.push({"lat": 52.679942, "lng": 5.031217}); // Gemeente Hoorn
-	coordinates.push({"lat": 52.608783, "lng": 5.004752}); // Gemeente Koggenland
-	coordinates.push({"lat": 52.529558, "lng": 4.956675});
-	coordinates.push({"lat": 52.444589, "lng": 4.949828}); // Landsmeer
-	coordinates.push({"lat": 52.371346, "lng": 4.964627});
-	coordinates.push({"lat": 52.330725, "lng": 5.065764}); // Weesp
-	coordinates.push({"lat": 52.354392, "lng": 5.133428});
-	coordinates.push({"lat": 52.415714, "lng": 5.205585});
-	coordinates.push({"lat": 52.464066, "lng": 5.325429});
-	coordinates.push({"lat": 52.516339, "lng": 5.442286});
-	coordinates.push({"lat": 52.566705, "lng": 5.519038}); // Lelystad
-	coordinates.push({"lat": 52.610013, "lng": 5.641877});
-	coordinates.push({"lat": 52.650536, "lng": 5.722788});
-	coordinates.push({"lat": 52.716596, "lng": 5.779643});
-	coordinates.push({"lat": 52.793334, "lng": 5.839287});
-	coordinates.push({"lat": 52.852241, "lng": 5.938124}); // Oldemarkt
-	coordinates.push({"lat": 52.898143, "lng": 6.063415});
-	coordinates.push({"lat": 52.953926, "lng": 6.179021});
-	coordinates.push({"lat": 53.018621, "lng": 6.250857});
-	coordinates.push({"lat": 53.073156, "lng": 6.331768}); // Een
-	coordinates.push({"lat": 53.155135, "lng": 6.369819});
-	coordinates.push({"lat": 53.206443, "lng": 6.456753});
-	coordinates.push({"lat": 53.230883, "lng": 6.523121});
-
-	distances = [];
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(10.0);
-	distances.push(6.6);
-}
-*/
-
-
-/*
-// Rondje Stedum
-coordinates.push({"lat": 53.231854, "lng": 6.529080});
-coordinates.push({"lat": 53.271768, "lng": 6.484025});
-coordinates.push({"lat": 53.328955, "lng": 6.519389});
-coordinates.push({"lat": 53.320854, "lng": 6.690573});
-coordinates.push({"lat": 53.268822, "lng": 6.692517});
-coordinates.push({"lat": 53.169356, "lng": 6.617061});
-coordinates.push({"lat": 53.231854, "lng": 6.529080});
-*/
-/*
-// Westkust
-coordinates.push({"lat": 52.946551, "lng": 4.735070});
-coordinates.push({"lat": 52.708098, "lng": 4.674169});
-coordinates.push({"lat": 52.453862, "lng": 4.578549});
-coordinates.push({"lat": 52.186173, "lng": 4.417890});
-*/
-
-
 
 function addTimeToDateTime(dateTime, time) {
 	return {"yy": dateTime.yy, "mm": dateTime.mm, "dd": dateTime.dd, "h": (dateTime.h + time.h + Math.floor((dateTime.m + time.m) / 60)), "m": ((dateTime.m + time.m) % 60)}
@@ -298,10 +183,7 @@ function windBetweenTwoPoints(firstIndex, time) {
 	
 	var avgwind = {"deg": averageDegrees(wind1.deg, wind2.deg), "speed": ((wind1.speed + wind2.speed) / 2)};
 	
-	returnable = {"roaddeg": roadangle, "winddeg": avgwind.deg, "windspeed": avgwind.speed};
-	//console.log(time);
-	//console.log(returnable);
-	return returnable;
+	return {"roaddeg": roadangle, "winddeg": avgwind.deg, "windspeed": avgwind.speed};
 }
 
 function calculateWindShares() {
@@ -419,22 +301,4 @@ function optimiseWeather () {
 	displayWindOptimisationResults("Recommended", 'rec', recHeading, recWind);
 	displayWindOptimisationResults("Alternative", 'alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
-	
-	/*
-	var originalStartHeading = vias[0];
-	var reverseStartHeading = vias[vias.length - 1];
-	
-	console.log("Recommended:");
-	if (originalWins) {
-		console.log("Start by cycling in the direction of " + originalStartHeading);
-	} else {
-		console.log("Start by cycling in the direction of " + reverseStartHeading);
-	}
-
-	console.log("\nIf you start by cycling in the direction of " + originalStartHeading);
-	displayWindOptimisationResults(originalDirection);
-
-	console.log("\nIf you start by cycling in the direction of " + reverseStartHeading);
-	displayWindOptimisationResults(reversedDirection);
-	*/
 }

@@ -30,6 +30,21 @@
 		.fullwidth {
 			width: 100%;
 		}
+		
+		.resultDiv {
+			
+			padding: 1px 10px 1px;
+			margin-bottom: 40px;
+			background: #FFFF66; /* For browsers that do not support gradients */
+			background: -webkit-linear-gradient(#FFFF66, #FFFFCC); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(#FFFF66, #FFFFCC); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(#FFFF66, #FFFFCC); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(#FFFF66, #FFFFCC); /* Standard syntax */
+		}
+		
+		#recTitle {
+			font-size: 20px;
+		}
 		</style>
 	</head>
 	<body>
@@ -117,18 +132,24 @@
 					<form>
 						<h2 id="msgOptim">Your route is being optimised.<br />Please wait...</h2>
 						
-						<h3 id="recDir"></h3>
-						<div class="progress">
-							<div class="progress-bar progress-bar-success" id="recTail" style="width: 0%"></div>
-							<div class="progress-bar progress-bar-warning" id="recCross" style="width: 0%"></div>
-							<div class="progress-bar progress-bar-danger" id="recHead" style="width: 0%"></div>
+						<div class="resultDiv" id="recDiv">
+							<span id="recTitle"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Recommended:</span><br />
+							<span id="recDir"></span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-success" id="recTail" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-warning" id="recCross" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-danger" id="recHead" style="width: 0%"></div>
+							</div>
 						</div>
 						
-						<h3 id="altDir"></h3>
-						<div class="progress">
-							<div class="progress-bar progress-bar-success" id="altTail" style="width: 0%"></div>
-							<div class="progress-bar progress-bar-warning" id="altCross" style="width: 0%"></div>
-							<div class="progress-bar progress-bar-danger" id="altHead" style="width: 0%"></div>
+						<div class="resultDiv" id="altDiv">
+							<span id="altTitle"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Alternative:</span><br />
+							<span id="altDir"></span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-success" id="altTail" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-warning" id="altCross" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-danger" id="altHead" style="width: 0%"></div>
+							</div>
 						</div>
 						
 						<div class="row">
