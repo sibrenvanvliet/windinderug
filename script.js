@@ -53,7 +53,7 @@ function geocodeRequest(address) {
 function drawRoute(routeArr) {
 	var coordss = [];
 	
-	for (var i = 0; i < routeArr.length, i++) {
+	for (var i = 0; i < routeArr.length; i++) {
 		var coord = [];
 		coord.push(routeArr[i].y);
 		coord.push(routeArr[i].x);
