@@ -50,6 +50,20 @@ function geocodeRequest(address) {
 	return geocode.results[0].geometry.location;
 }
 
+function drawRoute(routeArr) {
+	var coordss = [];
+	
+	for (var i = 0; i < routeArr.length, i++) {
+		var coord = [];
+		coord.push(routeArr[i].y);
+		coord.push(routeArr[i].x);
+		coords.push(coord);
+	}
+	
+	var polyline = L.polyline(coordss, {color: 'red'}).addTo(map);
+	map.fitBounds(polyline.getBounds());
+}
+
 /***** ROUTE PLANNING *****/
 function planRoute() {
 	vias = [];
@@ -83,6 +97,8 @@ function planRoute() {
 	console.log(skobblerResponse);
 	
 	routeArray = skobblerResponse.route.routePoints;
+	
+	drawRoute(routeArray);
 	
 	numberOfCoordinates = 40;
 	
