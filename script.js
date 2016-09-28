@@ -81,7 +81,7 @@ function planRoute() {
 		+ "&advice=yes"
 		+ "&points=yes";
 	
-	var skobblerResponse = JSON.parse(httpGet(routerequest, false));
+	skobblerResponse = JSON.parse(httpGet(routerequest, false));
 	
 	console.log(skobblerResponse);
 	
@@ -225,9 +225,9 @@ function calculateWindShares() {
 
 function displayWindOptimisationResults(label, prefix, heading, wind) {
 	$('#' + prefix + 'Dir').html(label + ": Start cycling in the direction of " + heading);
-	$('#' + prefix + 'Tail').html(wind.tail + "% tail&#8288;wind").css("width", wind.tail + "%");
-	$('#' + prefix + 'Cross').html(wind.cross + "% cross&#8288;wind").css("width", wind.cross + "%");
-	$('#' + prefix + 'Head').html(wind.head + "% head&#8288;wind").css("width", wind.head + "%");
+	$('#' + prefix + 'Tail').html(wind.tail + "% tailwind").css("width", wind.tail + "%");
+	$('#' + prefix + 'Cross').html(wind.cross + "% crosswind").css("width", wind.cross + "%");
+	$('#' + prefix + 'Head').html(wind.head + "% headwind").css("width", wind.head + "%");
 }
 
 // Returns true if route1 wins, returns false if route2 wins
@@ -279,6 +279,8 @@ function optimiseWeather () {
 	windinfos.push(windinfos[0]);
 	
 	// Display results
+	routeDuration = addTimeToDateTime({"yy": 0, "mm": 0, "dd": 0, "h": 0, "m": 0}, {"h": 0, "m": Math.round(routeLength / avgSpeed * 60)});
+	
 	var originalDirectionWinds = calculateWindShares();
 	coordinates.reverse();
 	windinfos.reverse();
@@ -301,4 +303,5 @@ function optimiseWeather () {
 	displayWindOptimisationResults("Recommended", 'rec', recHeading, recWind);
 	displayWindOptimisationResults("Alternative", 'alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
+	$("#routeInfo").html("Distance: " + routelength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
 }
