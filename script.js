@@ -54,8 +54,6 @@ function geocodeRequest(address) {
 function planRoute() {
 	vias = [];
 	startend = $("#startend").val();
-	console.log("hoi");
-	console.log(vias);
 	vias.push($("#via1").val());
 	vias.push($("#via2").val());
 	vias.push($("#via3").val());
@@ -80,12 +78,30 @@ function planRoute() {
 		+ "&advice=yes"
 		+ "&points=yes";
 	
-	var route = JSON.parse(httpGet(routerequest, false));
+	var skobblerResponse = JSON.parse(httpGet(routerequest, false));
 	
-	console.log(route);
+	console.log(skobblerResponse);
+	
+	route = skobblerResponse.route.routepoints;
+	
+	numberOfCoordinates = 40;
+	
+	stepsize = Math.floor(route.length / (numberOfCoordinates + 1));
+	
+	routeLength = skobblerResponse.route.routelength / 1000;
+	
+	distancePerStep = routeLength / numberOfCoordinates;
 	
 	coordinates = [];
+	for (var i = 0; i < numberOfCoordinates; i++) {
+		var coord = route[i * stepsize];
+		coordinates.push({"lat": coord.y, "lng": coord.x});
+	}
+}
+	
+	
 	// Rondje Amsterdam
+	/*
 	coordinates.push({"lat": 53.230883, "lng": 6.523121}); // Korrewegwijk
 	coordinates.push({"lat": 53.261305, "lng": 6.397679});
 	coordinates.push({"lat": 53.265829, "lng": 6.252694});
@@ -164,6 +180,7 @@ function planRoute() {
 	distances.push(10.0);
 	distances.push(6.6);
 }
+*/
 
 
 /*
@@ -272,7 +289,7 @@ function calculateWindShares() {
 	var totalCross = 0.0;
 
 	for (var i = 0; i < coordinates.length - 1; i++) {
-		var minutes = Math.round(distances[i] / avgSpeed * 60);
+		var minutes = Math.round(distancePerStep / avgSpeed * 60);
 		var middleTime = addTimeToDateTime(currentTime, {"h": 0, "m": Math.round(minutes / 2)});
 		currentTime = addTimeToDateTime(currentTime, {"h": 0, "m": minutes});
 		
@@ -283,15 +300,15 @@ function calculateWindShares() {
 		if (degdiff > 135 && degdiff < 225) {
 			//windType = "tailwind";
 			//console.log(windType);
-			totalTail += distances[i] * point.windspeed;
+			totalTail += distancePerStep * point.windspeed;
 		} else if (degdiff < 45 || degdiff > 315) {
 			//windType = "headwind";
 			//console.log(windType);
-			totalHead += distances[i] * point.windspeed;
+			totalHead += distancePerStep * point.windspeed;
 		} else {
 			//windType = "crosswind";
 			//console.log(windType);
-			totalCross += distances[i] * point.windspeed;
+			totalCross += distancePerStep * point.windspeed;
 		}
 	}
 	
@@ -350,7 +367,6 @@ function optimiseWeather () {
 	var originalDirection = calculateWindShares();
 	coordinates.reverse();
 	windinfos.reverse();
-	distances.reverse();
 	var reversedDirection = calculateWindShares();
 	
 	var originalWins = originalWasBestRoute(originalDirection, reversedDirection);
