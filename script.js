@@ -21,8 +21,13 @@ function weatherLatLong(lat, lon) {
 }
 
 $(document).ready(function(){
+	$("#warningJquery").hide();
+	$("#warningProtection").hide();
 	$("#routeplanpage2").hide();
 	$("#routeplanpage3").hide();
+	var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442", false);
+	console.log(testResponse);
+	console.log(testResponse == null);
 }); 
 
 function gotoPage(page) {
