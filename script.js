@@ -84,7 +84,7 @@ function planRoute() {
 	
 	drawRoute(routeArray);
 	
-	numberOfCoordinates = 40;
+	numberOfCoordinates = 20;
 	
 	stepsize = Math.floor(routeArray.length / (numberOfCoordinates + 1));
 	
@@ -174,30 +174,44 @@ function validateTimeSpeed() {
 
 // Function returns, from the forecast list, the wind at a specific time
 function windAtTime(windIndex, time) {
-	var windinfo = windinfos[windIndex];
+	var windinfo = windinfos[windIndex].forecast;
 	console.log(windinfo);
-	var firstTime = parseInt(windinfo.list[0].dt);
-	console.log("firstTime before multiplication: " + firstTime);
-	firstTime *= 1000;
-	console.log("firstTime after multiplication: " + firstTime);
-	var firstTimeIndex = 0;
+	var firstTime = parseInt(windinfo.list[0].dt) * 1000;
 	
 	console.log("I want the weather for " + time);
 	console.log("firstTime: " + firstTime);
+	
 	if (time < firstTime) {
 		console.log("Current weather required!");
-		return {"deg": 0, "speed": 0};
+		if (windinfos[windIndex].current === 0) {
+			var point = coordinates[windIndex];
+			weatherResult = weatherLatLong(point.lat, point.lng);
+			weatherResult = JSON.parse(weatherResult);
+			console.log(weatherResult);
+			windinfos[windIndex].current = weatherResult;
+			
+			if (windIndex === 0) {
+				windinfos[windinfos.length - 1].current = weatherResult;
+			}
+		}
+		
+		console.log(windinfos[windIndex].current);
+		
+		firstWeather = windinfos[windIndex].current;
+		secondWeather = windinfo.list[0];
+		firstTime -= 10800000;
+	} else {
+		var firstTimeIndex = 0;
+		while (time - 10800000 > firstTime) {
+			firstTime += 10800000;
+			firstTimeIndex++;
+		}
+		
+		firstWeather = windinfo.list[firstTimeIndex];
+		secondWeather = windinfo.list[firstTimeIndex + 1];
 	}
 	
-	while (time - 10800000 > firstTime) {
-		firstTime += 10800000;
-		firstTimeIndex++;
-	}
-	
-	firstWeather = windinfo.list[firstTimeIndex];
-	secondWeather = windinfo.list[firstTimeIndex + 1];
 	gravitationToFirst = (time - firstTime) / 10800000;
-	
 	winddegAtTime = firstWeather.wind.deg * (1.0 - gravitationToFirst) + secondWeather.wind.deg * gravitationToFirst;
 	windspeedAtTime = firstWeather.wind.speed * (1.0 - gravitationToFirst) + secondWeather.wind.speed * gravitationToFirst;
 	
@@ -292,7 +306,7 @@ function optimiseWeather () {
 			continue;
 		}
 
-		windinfos.push(weatherResult);
+		windinfos.push({"forecast": weatherResult, "current": 0});
 	}
 	windinfos.push(windinfos[0]);
 	
