@@ -175,7 +175,10 @@ function validateTimeSpeed() {
 function windAtTime(windIndex, time) {
 	var windinfo = windinfos[windIndex];
 	console.log(windinfo);
-	var firstTime = parseInt(windinfo.list[0].dt) * 1000;
+	var firstTime = parseInt(windinfo.list[0].dt);
+	console.log("firstTime before multiplication: " + firstTime);
+	firstTime *= 1000;
+	console.log("firstTime after multiplication: " + firstTime);
 	var firstTimeIndex = 0;
 	
 	console.log("I want the weather for " + time);
