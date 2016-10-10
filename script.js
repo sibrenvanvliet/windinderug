@@ -165,7 +165,8 @@ function validateTimeSpeed() {
 	}
 	
 	// Everything is okay, so go to the next page
-	console.log(avgSpeed);
+	console.log("currentTime:" + currentTime);
+	console.log("startTime:" + startTime);
 	gotoPage(3);
 	optimiseWeather();
 }
@@ -177,6 +178,8 @@ function windAtTime(windIndex, time) {
 	var firstTime = parseInt(windinfo.list[0].dt) * 1000;
 	var firstTimeIndex = 0;
 	
+	console.log("I want the weather for " + time);
+	console.log("firstTime: " + firstTime);
 	if (time < firstTime) {
 		console.log("Current weather required!");
 		return {"deg": 0, "speed": 0};
