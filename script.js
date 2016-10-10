@@ -340,6 +340,6 @@ function optimiseWeather () {
 	displayWindOptimisationResults('alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
 	$("#routeInfo").html("Starting " + startDstring + " at " + startH + ":" + (startM < 10 ? "0" : "") + startM + "h.<br />" 
-		+ "Distance: " + ((speedunit === kmh) ? (routeLength.toFixed(1) + " kilometres. ") : ((routeLength/1.60934).toFixed(1) + "miles. "))
+		+ "Distance: " + ((speedunit === "km/h") ? (routeLength.toFixed(1) + " kilometres. ") : ((routeLength/1.60934).toFixed(1) + "miles. "))
 		+ "Duration: " + Math.floor(routeDuration/60) + "h" + ((routeDuration % 60) < 10 ? "0" : "") + (routeDuration % 60) + "m.");
 }
