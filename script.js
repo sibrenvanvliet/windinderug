@@ -136,6 +136,7 @@ function validateTimeSpeed() {
 	startD = parseInt($("select[id=starttimeD]").val());
 	avgSpeed = parseInt($("#speed").val());
 	speedunit = $("#speedunit").val();
+	startDstring = $("#starttimeD").val();
 	
 	if (isNaN(startH) || isNaN(startM) || startH < 0 || startH > 23 || startM < 0 || startM > 59) {
 		alert("Please enter a proper starting time (0:00 - 23:59).");
@@ -338,5 +339,7 @@ function optimiseWeather () {
 	displayWindOptimisationResults('rec', recHeading, recWind);
 	displayWindOptimisationResults('alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
-	$("#routeInfo").html("Distance: " + routeLength.toFixed(1) + " km. Duration: " + routeDuration + " minutes");
+	$("#routeInfo").html("Starting " + startDstring + " at " + startH + ":" + (startM < 10 ? "0" : "") + startM + "h.<br />" 
+		+ "Distance: " + ((speedunit === kmh) ? (routeLength.toFixed(1) + " kilometres. ") : ((routeLength/1.60934).toFixed(1) + "miles. "))
+		+ "Duration: " + Math.floor(routeDuration/60) + "h" + ((routeDuration % 60) < 10 ? "0" : "") + (routeDuration % 60) + "m.");
 }
