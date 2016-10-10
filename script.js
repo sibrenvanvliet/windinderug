@@ -1,7 +1,8 @@
 var skobblerKey = "1071b1a66d18a54cc861930a397ed442";
 var googleKey = "AIzaSyAFkA1mS07PF2d_B9nIfgoGdBamtMAolQI";
+var weatherKey = "53737e31378c16da320326248ae3df11";
 
-function httpGet(theUrl, cors) {
+function httpGet(theUrl) {
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
 	xmlHttp.send( null );
@@ -10,23 +11,14 @@ function httpGet(theUrl, cors) {
 }
 
 function weatherForecastLatLong(lat, lon) {
-	var key = "53737e31378c16da320326248ae3df11";
-	var url = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&APPID=" + key;
-	return httpGet(url, false);
+	var url = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&APPID=" + weatherKey;
+	return httpGet(url);
 }
 
 function weatherLatLong(lat, lon) {
-	var key = "53737e31378c16da320326248ae3df11";
-	var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=" + key;
-	return httpGet(url, false);
+	var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=" + weatherKey;
+	return httpGet(url);
 }
-
-$(document).ready(function(){
-	$("#warningJquery").hide();
-	$("#routeplanpage2").hide();
-	$("#routeplanpage3").hide();
-	var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442", false);
-}); 
 
 function gotoPage(page) {
 	$("#routeplanpage1").hide();
@@ -37,7 +29,7 @@ function gotoPage(page) {
 
 function geocodeRequest(address) {
 	address = address.split(' ').join('+');
-	var geocode = JSON.parse(httpGet("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + googleKey, false));
+	var geocode = JSON.parse(httpGet("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + googleKey));
 	console.log(geocode);
 	return geocode.results[0].geometry.location;
 }
@@ -84,7 +76,7 @@ function planRoute() {
 		+ "&advice=yes"
 		+ "&points=yes";
 	
-	var skobblerResponse = JSON.parse(httpGet(routerequest, false));
+	var skobblerResponse = JSON.parse(httpGet(routerequest));
 	
 	console.log(skobblerResponse);
 	
@@ -109,10 +101,6 @@ function planRoute() {
 	}
 }
 
-function addTimeToDateTime(dateTime, time) {
-	return {"yy": dateTime.yy, "mm": dateTime.mm, "dd": dateTime.dd, "h": (dateTime.h + time.h + Math.floor((dateTime.m + time.m) / 60)), "m": ((dateTime.m + time.m) % 60)}
-}
-
 function angleBetweenTwoPoints(point1, point2) {
 	p1lat = point1.lat / 180 * Math.PI;
 	p2lat = point2.lat / 180 * Math.PI;
@@ -133,22 +121,60 @@ function angleBetweenTwoPoints(point1, point2) {
 	return angle;
 }
 
-function dateTimeToEpoch(dateTime) {
-	epochDT = 1475053200;
-	epochDateTime = {"yy": 2016, "mm": 9, "dd": 28, "h": 9, "m" : 0};
+$(document).ready(function(){
+	$("#warningJquery").hide();
+	$("#routeplanpage2").hide();
+	$("#routeplanpage3").hide();
+	var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442");
+}); 
+
+function validateTimeSpeed() {
+	currentDate = new Date();
 	
-	secondsSinceEpoch = dateTime.m * 60
-		+ (dateTime.h - 9) * 60 * 60
-		+ (dateTime.dd - 28) * 60 * 60 * 24;
-	return secondsSinceEpoch + epochDT;
+	startM = parseInt($("#starttimeM").val());
+	startH = parseInt($("#starttimeH").val());
+	startD = parseInt($("select[id=starttimeD]").val());
+	avgSpeed = parseInt($("#speed").val());
+	speedunit = $("#speedunit").val();
+	
+	if (isNaN(startH) || isNaN(startM) || startH < 0 || startH > 23 || startM < 0 || startM > 59) {
+		alert("Please enter a proper starting time (0:00 - 23:59).");
+		return;
+	}
+	
+	currentTime = Date.now(); // current time in UTC
+	startTime = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate() + startD, startH, startM + currentDate.getTimezoneOffset() + 1); // entered time in UTC
+	
+	if (startTime < currentTime) {
+		alert("Please enter a start time that is not before the current time.");
+		return;
+	}
+	
+	if (isNaN(avgSpeed)) {
+		alert("Please enter a number (>0) for your expected average speed.");
+		return;
+	}
+	
+	if (avgSpeed < 1) {
+		alert("Your expected average speed should be at least 1 " + speedunit + ".");
+		return;
+	}
+	
+	if (speedunit === "mph") {
+		avgSpeed *= 1.60934;
+	}
+	
+	// Everything is okay, so go to the next page
+	console.log(avgSpeed);
+	//gotoPage(3);
+	//optimiseWeather();
 }
 
 // Function returns, from the forecast list, the wind at a specific time
 function windAtTime(windIndex, time) {
-	time = dateTimeToEpoch(time);
 	var windinfo = windinfos[windIndex];
 	//console.log(windinfo);
-	var firstTime = parseInt(windinfo.list[0].dt);
+	var firstTime = parseInt(windinfo.list[0].dt) * 1000;
 	var firstTimeIndex = 0;
 	
 	if (time < firstTime) {
@@ -156,14 +182,14 @@ function windAtTime(windIndex, time) {
 		return {"deg": 0, "speed": 0};
 	}
 	
-	while (time - 10800 > firstTime) {
-		firstTime += 10800;
+	while (time - 10800000 > firstTime) {
+		firstTime += 10800000;
 		firstTimeIndex++;
 	}
 	
 	firstWeather = windinfo.list[firstTimeIndex];
 	secondWeather = windinfo.list[firstTimeIndex + 1];
-	gravitationToFirst = (time - firstTime) / 10800;
+	gravitationToFirst = (time - firstTime) / 10800000;
 	
 	winddegAtTime = firstWeather.wind.deg * (1.0 - gravitationToFirst) + secondWeather.wind.deg * gravitationToFirst;
 	windspeedAtTime = firstWeather.wind.speed * (1.0 - gravitationToFirst) + secondWeather.wind.speed * gravitationToFirst;
@@ -196,9 +222,9 @@ function calculateWindShares() {
 	var totalCross = 0.0;
 
 	for (var i = 0; i < coordinates.length - 1; i++) {
-		var minutes = Math.round(distancePerStep / avgSpeed * 60);
-		var middleTime = addTimeToDateTime(currentTime, {"h": 0, "m": Math.round(minutes / 2)});
-		currentTime = addTimeToDateTime(currentTime, {"h": 0, "m": minutes});
+		var milliseconds = Math.round(distancePerStep / avgSpeed * 3600000);
+		var middleTime = currentTime + milliseconds / 2;
+		currentTime += milliseconds;
 		
 		var point = windBetweenTwoPoints(i, middleTime);
 		
@@ -240,25 +266,6 @@ function originalWasBestRoute(route1, route2) {
 }
 
 function optimiseWeather () {
-	// TIME STUFF
-	startTimeH = parseInt($("#starttimeH").val());
-	startTimeM = parseInt($("#starttimeM").val());
-	
-	var currentDate = new Date();
-	var currentDT = {"yy": currentDate.getUTCFullYear(), "mm": currentDate.getUTCMonth() + 1, "dd": currentDate.getUTCDate(), "h": currentDate.getUTCHours(), "m" : currentDate.getUTCMinutes()};
-	
-	startTime = {"yy": currentDT.yy, "mm": currentDT.mm, "dd": currentDT.dd, "h": startTimeH, "m" : startTimeM};
-	if (dateTimeToEpoch(currentDT) > dateTimeToEpoch(startTime) - 7200) {
-		startTime.dd++;
-	}
-	startTime.h -= 2;
-	
-	console.log(currentDT);
-	console.log(startTime);
-	
-	currentTime = startTime;
-	avgSpeed = parseInt($("#speed").val());
-	
 	// Gather wind information from coordinates using OpenWeatherMap API
 	var retries = 0;
 	windinfos = [];
@@ -283,7 +290,7 @@ function optimiseWeather () {
 	windinfos.push(windinfos[0]);
 	
 	// Display results
-	routeDuration = addTimeToDateTime({"yy": 0, "mm": 0, "dd": 0, "h": 0, "m": 0}, {"h": 0, "m": Math.round(routeLength / avgSpeed * 60)});
+	routeDuration = Math.round(routeLength / avgSpeed * 60);
 	
 	var originalDirectionWinds = calculateWindShares();
 	coordinates.reverse();
@@ -307,5 +314,5 @@ function optimiseWeather () {
 	displayWindOptimisationResults('rec', recHeading, recWind);
 	displayWindOptimisationResults('alt', altHeading, altWind);
 	$("#msgOptim").html("Your route has been optimised.");
-	$("#routeInfo").html("Distance: " + routeLength.toFixed(1) + " km. Duration: " + routeDuration.h + "h " + routeDuration.m + "m.");
+	$("#routeInfo").html("Distance: " + routeLength.toFixed(1) + " km. Duration: " + routeDuration + " minutes");
 }
