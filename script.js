@@ -144,6 +144,7 @@ function validateTimeSpeed() {
 	
 	currentTime = Date.now(); // current time in UTC
 	startTime = Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate() + startD, startH, startM + currentDate.getTimezoneOffset() + 1); // entered time in UTC
+	calculationTime = startTime;
 	
 	if (startTime < currentTime) {
 		alert("Please enter a start time that is not before the current time.");
@@ -229,8 +230,8 @@ function calculateWindShares() {
 
 	for (var i = 0; i < coordinates.length - 1; i++) {
 		var milliseconds = Math.round(distancePerStep / avgSpeed * 3600000);
-		var middleTime = currentTime + milliseconds / 2;
-		currentTime += milliseconds;
+		var middleTime = calculationTime + milliseconds / 2;
+		calculationTime += milliseconds;
 		
 		var point = windBetweenTwoPoints(i, middleTime);
 		
@@ -298,9 +299,12 @@ function optimiseWeather () {
 	// Display results
 	routeDuration = Math.round(routeLength / avgSpeed * 60);
 	
+	console.log("calculationTime for original direction: " + calculationTime);
 	var originalDirectionWinds = calculateWindShares();
 	coordinates.reverse();
 	windinfos.reverse();
+	calculationTime = startTime;
+	console.log("calculationTime for reversed direction: " + calculationTime);
 	var reversedDirectionWinds = calculateWindShares();
 	
 	var originalWins = originalWasBestRoute(originalDirectionWinds, reversedDirectionWinds);
