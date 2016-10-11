@@ -35,29 +35,29 @@ function geocodeRequest(address) {
 }
 
 function drawRoute(mode) {
-	/*
-	var coords = [];
-	
-	for (var i = 0; i < routeArr.length; i++) {
-		var coord = [];
-		coord.push(routeArr[i].x);
-		coord.push(routeArr[i].y);
-		coords.push(coord);
+	if (mode === 0) {
+		var coords = [];
+
+		for (var i = 0; i < routeArr.length; i++) {
+			var coord = [];
+			coord.push(routeArr[i].x);
+			coord.push(routeArr[i].y);
+			coords.push(coord);
+		}
+		
+		var polyline = L.polyline(coords, {color: 'blue'}).addTo(map);
+		map.fitBounds(polyline.getBounds());
+		
+		return;
 	}
-	*/
 	
 	for (var i = 0; i < routeblocks.length; i++) {
-		if (mode === 0) {
-			var polyline = L.polyline(routeblocks[i], {color: 'blue'}).addTo(map);
-		} else if (mode === 1) {
+		if (mode === 1) {
 			var polyline = L.polyline(routeblocks[i], {color: windtypes[i].original}).addTo(map);
 		} else {
 			var polyline = L.polyline(routeblocks[i], {color: windtypes[i].reversed}).addTo(map);
 		}
 	}
-	
-	var polyline = L.polyline(coords, {color: 'blue'});
-	map.fitBounds(polyline.getBounds());
 }
 
 /***** ROUTE PLANNING *****/
