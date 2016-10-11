@@ -35,8 +35,6 @@ function geocodeRequest(address) {
 }
 
 function drawRoute(mode) {
-	polyline.clearLayers();
-	
 	if (mode === 0) {
 		var coords = [];
 
@@ -52,6 +50,8 @@ function drawRoute(mode) {
 		
 		return;
 	}
+	
+	polyline.clearLayers();
 	
 	for (var i = 0; i < routeblocks.length; i++) {
 		if (mode === 1) {
