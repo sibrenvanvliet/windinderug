@@ -40,8 +40,8 @@ function drawRoute(mode) {
 
 		for (var i = 0; i < routeArray.length; i++) {
 			var coord = [];
-			coord.push(routeArray[i].x);
 			coord.push(routeArray[i].y);
+			coord.push(routeArray[i].x);
 			coords.push(coord);
 		}
 		
