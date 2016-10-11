@@ -35,7 +35,7 @@ function geocodeRequest(address) {
 }
 
 function drawRoute(mode) {
-	L.clearLayers();
+	polyline.clearLayers();
 	
 	if (mode === 0) {
 		var coords = [];
@@ -47,7 +47,7 @@ function drawRoute(mode) {
 			coords.push(coord);
 		}
 		
-		var polyline = L.polyline(coords, {color: 'blue'}).addTo(map);
+		polyline = L.polyline(coords, {color: 'blue'}).addTo(map);
 		map.fitBounds(polyline.getBounds());
 		
 		return;
@@ -55,9 +55,9 @@ function drawRoute(mode) {
 	
 	for (var i = 0; i < routeblocks.length; i++) {
 		if (mode === 1) {
-			var polyline = L.polyline(routeblocks[i], {color: windtypes[i].original}).addTo(map);
+			polyline = L.polyline(routeblocks[i], {color: windtypes[i].original}).addTo(map);
 		} else {
-			var polyline = L.polyline(routeblocks[i], {color: windtypes[i].reversed}).addTo(map);
+			polyline = L.polyline(routeblocks[i], {color: windtypes[i].reversed}).addTo(map);
 		}
 	}
 }
