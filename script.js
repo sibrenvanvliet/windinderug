@@ -34,17 +34,29 @@ function geocodeRequest(address) {
 	return geocode.results[0].geometry.location;
 }
 
-function drawRoute(routeArr) {
+function drawRoute(mode) {
+	/*
 	var coords = [];
 	
 	for (var i = 0; i < routeArr.length; i++) {
 		var coord = [];
-		coord.push(routeArr[i].lat);
-		coord.push(routeArr[i].lng);
+		coord.push(routeArr[i].x);
+		coord.push(routeArr[i].y);
 		coords.push(coord);
 	}
+	*/
 	
-	var polyline = L.polyline(coords, {color: 'blue'}).addTo(map);
+	for (var i = 0; i < routeblocks.length; i++) {
+		if (mode === 0) {
+			var polyline = L.polyline(routeblocks[i], {color: 'blue'}).addTo(map);
+		} else if (mode === 1) {
+			var polyline = L.polyline(routeblocks[i], {color: windtypes[i].original}).addTo(map);
+		} else {
+			var polyline = L.polyline(routeblocks[i], {color: windtypes[i].reversed}).addTo(map);
+		}
+	}
+	
+	var polyline = L.polyline(coords, {color: 'blue'});
 	map.fitBounds(polyline.getBounds());
 }
 
@@ -93,12 +105,30 @@ function planRoute() {
 	//console.log(routeArray);
 	
 	coordinates = [];
-	for (var i = 0; i < numberOfCoordinates + 2; i++) {
+	for (var i = 0; i <= numberOfCoordinates + 1; i++) {
 		var coord = routeArray[i * stepsize];
 		coordinates.push({"lat": coord.y, "lng": coord.x});
 	}
 	
-	drawRoute(coordinates);
+	routeblocks = [];
+	for (var i = 0; i <= numberOfCoordinates; i++) {
+		if (i < numberOfCoordinates) {
+			endstep = (i+1)*stepsize;
+		} else {
+			endstep = routeArray.length;
+		}
+		
+		var block = [];
+		for (var j = i*stepsize; j < endstep; j++) {
+			var coord = [];
+			coord.push(routeArray[j].x);
+			coord.push(routeArray[j].y);
+			block.push(coord);
+		}
+		routeblocks.push(block);
+	}
+	
+	drawRoute(0);
 }
 
 function angleBetweenTwoPoints(point1, point2) {
@@ -252,15 +282,15 @@ function calculateWindShares(runnr) {
 		var degdiff = Math.round(point.roaddeg - point.winddeg + 360) % 360;
 		
 		if (degdiff > 135 && degdiff < 225) {
-			windType = "tailwind";
+			windType = "green";
 			//console.log(windType);
 			totalTail += distancePerStep * point.windspeed;
 		} else if (degdiff < 45 || degdiff > 315) {
-			windType = "headwind";
+			windType = "red";
 			//console.log(windType);
 			totalHead += distancePerStep * point.windspeed;
 		} else {
-			windType = "crosswind";
+			windType = "yellow";
 			//console.log(windType);
 			totalCross += distancePerStep * point.windspeed;
 		}
@@ -268,7 +298,7 @@ function calculateWindShares(runnr) {
 		if (runnr === 0) {
 			windtypes.push({"original": windType, "reversed": 0});
 		} else {
-			windtypes[i].reversed = windType;
+			windtypes[windtypes.length - 1 - i].reversed = windType;
 		}
 	}
 	
