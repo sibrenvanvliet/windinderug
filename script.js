@@ -177,7 +177,7 @@ $(document).ready(function(){
 	$("#warningJquery").hide();
 	$("#routeplanpage2").hide();
 	$("#routeplanpage3").hide();
-	//var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442");
+	var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442");
 	nvias = 2;
 	for (var i = 3; i <= 11; i++) {
 		$("#viacontainer" + i).hide();
