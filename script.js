@@ -290,7 +290,7 @@ function calculateWindShares(runnr) {
 			//console.log(windType);
 			totalHead += distancePerStep * point.windspeed;
 		} else {
-			windType = "yellow";
+			windType = "orange";
 			//console.log(windType);
 			totalCross += distancePerStep * point.windspeed;
 		}
