@@ -338,6 +338,18 @@ function originalWasBestRoute(route1, route2) {
 }
 
 function selectRoute(selectedDiv) {
+	if (selectedDiv === "rec") {
+		$("#recDiv").removeClass("nonhighlightedDiv");
+		$("#recDiv").addClass("highlightedDiv");
+		$("#altDiv").addClass("nonhighlightedDiv");
+		$("#altDiv").removeClass("highlightedDiv");
+	} else {
+		$("#altDiv").removeClass("nonhighlightedDiv");
+		$("#altDiv").addClass("highlightedDiv");
+		$("#recDiv").addClass("nonhighlightedDiv");
+		$("#recDiv").removeClass("highlightedDiv");
+	}
+	
 	if ((selectedDiv === "rec" && originalWins) || (selectedDiv === "alt" && !originalWins)) {
 		drawRoute(1);
 	} else {
