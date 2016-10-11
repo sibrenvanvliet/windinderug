@@ -35,6 +35,7 @@
 			padding: 1px 10px 1px;
 			margin-bottom: 20px;
 			margin-top: 20px;
+			cursor: pointer;
 		}
 		
 		.highlightedDiv {
@@ -167,29 +168,25 @@
 						<h2 id="msgOptim">Your route is being optimised.<br />Please wait...</h2>
 						<span id="routeInfo"></span>
 						
-						<a>
-							<div class="resultDiv" id="recDiv" onClick="selectRoute('rec')">
-								<span id="recTitle"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Recommended:</span><br />
-								<span id="recDir"></span>
-								<div class="progress">
-									<div class="progress-bar progress-bar-success" id="recTail" style="width: 0%"></div>
-									<div class="progress-bar progress-bar-warning" id="recCross" style="width: 0%"></div>
-									<div class="progress-bar progress-bar-danger" id="recHead" style="width: 0%"></div>
-								</div>
+						<div class="resultDiv" id="recDiv" onClick="selectRoute('rec')">
+							<span id="recTitle"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Recommended:</span><br />
+							<span id="recDir"></span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-success" id="recTail" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-warning" id="recCross" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-danger" id="recHead" style="width: 0%"></div>
 							</div>
-						</a>
+						</div>
 						
-						<a>
-							<div class="resultDiv" id="altDiv" onClick="selectRoute('alt')">
-								<span id="altTitle"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Alternative:</span><br />
-								<span id="altDir"></span>
-								<div class="progress">
-									<div class="progress-bar progress-bar-success" id="altTail" style="width: 0%"></div>
-									<div class="progress-bar progress-bar-warning" id="altCross" style="width: 0%"></div>
-									<div class="progress-bar progress-bar-danger" id="altHead" style="width: 0%"></div>
-								</div>
+						<div class="resultDiv" id="altDiv" onClick="selectRoute('alt')">
+							<span id="altTitle"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Alternative:</span><br />
+							<span id="altDir"></span>
+							<div class="progress">
+								<div class="progress-bar progress-bar-success" id="altTail" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-warning" id="altCross" style="width: 0%"></div>
+								<div class="progress-bar progress-bar-danger" id="altHead" style="width: 0%"></div>
 							</div>
-						</a>
+						</div>
 						
 						<div class="row">
 							<div class="col-md-3">
