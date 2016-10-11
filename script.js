@@ -34,6 +34,19 @@ function geocodeRequest(address) {
 	return geocode.results[0].geometry.location;
 }
 
+function clearMap() {
+    for(i in map._layers) {
+        if(map._layers[i]._path != undefined) {
+            try {
+                map.removeLayer(map._layers[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + map._layers[i]);
+            }
+        }
+    }
+}
+
 function drawRoute(mode) {
 	if (mode === 0) {
 		var coords = [];
@@ -51,7 +64,7 @@ function drawRoute(mode) {
 		return;
 	}
 	
-	polyline.clearLayers();
+	clearMap();
 	
 	for (var i = 0; i < routeblocks.length; i++) {
 		if (mode === 1) {
