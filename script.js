@@ -39,8 +39,8 @@ function drawRoute(routeArr) {
 	
 	for (var i = 0; i < routeArr.length; i++) {
 		var coord = [];
-		coord.push(routeArr[i].y);
-		coord.push(routeArr[i].x);
+		coord.push(routeArr[i].lat);
+		coord.push(routeArr[i].lng);
 		coords.push(coord);
 	}
 	
@@ -82,8 +82,6 @@ function planRoute() {
 	
 	routeArray = skobblerResponse.route.routePoints;
 	
-	drawRoute(routeArray);
-	
 	numberOfCoordinates = 20;
 	
 	stepsize = Math.floor(routeArray.length / (numberOfCoordinates + 1));
@@ -99,6 +97,8 @@ function planRoute() {
 		var coord = routeArray[i * stepsize];
 		coordinates.push({"lat": coord.y, "lng": coord.x});
 	}
+	
+	drawRoute(coordinates);
 }
 
 function angleBetweenTwoPoints(point1, point2) {
@@ -348,6 +348,4 @@ function optimiseWeather () {
 	$("#routeInfo").html("Starting " + (startD === 0 ? "today" : "tomorrow") + " at " + startH + ":" + (startM < 10 ? "0" : "") + startM + "h.<br />" 
 		+ "Distance: " + ((speedunit === "km/h") ? (routeLength.toFixed(1) + " kilometres. ") : ((routeLength/1.60934).toFixed(1) + "miles. "))
 		+ "Duration: " + Math.floor(routeDuration/60) + "h" + ((routeDuration % 60) < 10 ? "0" : "") + (routeDuration % 60) + "m.");
-	
-	console.log(windtypes);
 }
