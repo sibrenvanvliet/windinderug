@@ -93,7 +93,7 @@ function planRoute() {
 	//console.log(routeArray);
 	
 	coordinates = [];
-	for (var i = 0; i < numberOfCoordinates; i++) {
+	for (var i = 0; i < numberOfCoordinates + 2; i++) {
 		var coord = routeArray[i * stepsize];
 		coordinates.push({"lat": coord.y, "lng": coord.x});
 	}
