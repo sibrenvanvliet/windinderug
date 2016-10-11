@@ -237,7 +237,7 @@ function windBetweenTwoPoints(firstIndex, time) {
 	return {"roaddeg": roadangle, "winddeg": avgwind.deg, "windspeed": avgwind.speed};
 }
 
-function calculateWindShares() {
+function calculateWindShares(runnr) {
 	var totalTail = 0.0;
 	var totalHead = 0.0;
 	var totalCross = 0.0;
@@ -252,17 +252,23 @@ function calculateWindShares() {
 		var degdiff = Math.round(point.roaddeg - point.winddeg + 360) % 360;
 		
 		if (degdiff > 135 && degdiff < 225) {
-			//windType = "tailwind";
+			windType = "tailwind";
 			//console.log(windType);
 			totalTail += distancePerStep * point.windspeed;
 		} else if (degdiff < 45 || degdiff > 315) {
-			//windType = "headwind";
+			windType = "headwind";
 			//console.log(windType);
 			totalHead += distancePerStep * point.windspeed;
 		} else {
-			//windType = "crosswind";
+			windType = "crosswind";
 			//console.log(windType);
 			totalCross += distancePerStep * point.windspeed;
+		}
+		
+		if (runnr === 0) {
+			windtypes.push({"original": windType, "reversed": 0});
+		} else {
+			windtypes[i].reversed = windType;
 		}
 	}
 	
@@ -313,13 +319,14 @@ function optimiseWeather () {
 	// Display results
 	routeDuration = Math.round(routeLength / avgSpeed * 60);
 	
+	windtypes = [];
 	console.log("calculationTime for original direction: " + calculationTime);
-	var originalDirectionWinds = calculateWindShares();
+	var originalDirectionWinds = calculateWindShares(0);
 	coordinates.reverse();
 	windinfos.reverse();
 	calculationTime = startTime;
 	console.log("calculationTime for reversed direction: " + calculationTime);
-	var reversedDirectionWinds = calculateWindShares();
+	var reversedDirectionWinds = calculateWindShares(1);
 	
 	var originalWins = originalWasBestRoute(originalDirectionWinds, reversedDirectionWinds);
 	
@@ -341,4 +348,6 @@ function optimiseWeather () {
 	$("#routeInfo").html("Starting " + (startD === 0 ? "today" : "tomorrow") + " at " + startH + ":" + (startM < 10 ? "0" : "") + startM + "h.<br />" 
 		+ "Distance: " + ((speedunit === "km/h") ? (routeLength.toFixed(1) + " kilometres. ") : ((routeLength/1.60934).toFixed(1) + "miles. "))
 		+ "Duration: " + Math.floor(routeDuration/60) + "h" + ((routeDuration % 60) < 10 ? "0" : "") + (routeDuration % 60) + "m.");
+	
+	console.log(windtypes);
 }
