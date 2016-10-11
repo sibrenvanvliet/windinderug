@@ -35,16 +35,16 @@ function geocodeRequest(address) {
 }
 
 function clearMap() {
-    for(i in map._layers) {
-        if(map._layers[i]._path != undefined) {
-            try {
-                map.removeLayer(map._layers[i]);
-            }
-            catch(e) {
-                console.log("problem with " + e + map._layers[i]);
-            }
-        }
-    }
+	for (i in map._layers) {
+		if (map._layers[i]._path != undefined) {
+			try {
+				map.removeLayer(map._layers[i]);
+			}
+			catch(e) {
+				console.log("problem with " + e + map._layers[i]);
+			}
+		}
+	}
 }
 
 function drawRoute(mode) {
@@ -75,17 +75,23 @@ function drawRoute(mode) {
 	}
 }
 
+function validateRoute() {
+	planRoute();
+	gotoPage(2);
+}
+
 /***** ROUTE PLANNING *****/
 function planRoute() {
-	vias = [];
 	startend = $("#startend").val();
-	vias.push($("#via1").val());
-	vias.push($("#via2").val());
-	vias.push($("#via3").val());
+	
+	vias = [];
+	for (var i = 1; i <= nvias; i++) {
+		vias.push($("#via" + i).val());
+	}
 	
 	geocodes = [];
 	geocodes.push(geocodeRequest(startend));
-	for (var i = 0; i < vias.length; i++) {
+	for (var i = 0; i < nvias; i++) {
 		geocodes.push(geocodeRequest(vias[i]));
 	}
 	
@@ -96,12 +102,13 @@ function planRoute() {
 	var routerequest = "http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?"
 		+ "start=" + geocodes[0].lat + "," + geocodes[0].lng
 		+ "&dest=" + endcoordinates.lat + "," + endcoordinates.lng
-		+ "&v0=" + geocodes[1].lat + "," + geocodes[1].lng
-		+ "&v1=" + geocodes[2].lat + "," + geocodes[2].lng
-		+ "&v2=" + geocodes[3].lat + "," + geocodes[3].lng
 		+ "&profile=bicycle"
 		+ "&advice=yes"
 		+ "&points=yes";
+	
+	for (var i = 0; i < nvias; i++) {
+		routerequest = routerequest + "&v" + i + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
+	}
 	
 	var skobblerResponse = JSON.parse(httpGet(routerequest));
 	
@@ -144,10 +151,6 @@ function planRoute() {
 	}
 	
 	drawRoute(0);
-	
-	// Prepare next page
-	currentDate = new Date();
-	$("#starttimeH").val(currentDate.getHours());
 }
 
 function angleBetweenTwoPoints(point1, point2) {
@@ -175,9 +178,36 @@ $(document).ready(function(){
 	$("#routeplanpage2").hide();
 	$("#routeplanpage3").hide();
 	var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442");
+	nvias = 2;
+	for (var i = 3; i <= 11; i++) {
+		$("#viacontainer" + i).hide();
+	}
 }); 
 
+function addVia() {
+	if (nvias === 11) {
+		alert("No more than eleven via-locations are possible.");
+		return;
+	}
+	
+	nvias++;
+	$("#viacontainer" + nvias).show();
+	$("#via" + nvias).focus();
+}
+
+function removeVia() {
+	if (nvias === 2) {
+		alert("At least two via-locations are required.");
+		return;
+	}
+	
+	$("#viacontainer" + nvias).hide();
+	nvias--;
+}
+
 function validateTimeSpeed() {
+	currentDate = new Date();
+	
 	startM = parseInt($("#starttimeM").val());
 	startH = parseInt($("#starttimeH").val());
 	startD = parseInt($("select[id=starttimeD]").val());

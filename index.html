@@ -93,28 +93,60 @@
 							<label for="startend">Start/end location</label>
 							<input type="text" class="form-control" id="startend" placeholder="Ex. Grote Markt, Groningen">
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="viacontainer1">
 							<label for="via1">Via 1</label>
-							<input type="text" class="form-control" id="via1" placeholder="Ex. Winsum">
+							<input type="text" class="form-control" id="via1" placeholder="Ex. Zuidlaren">
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="viacontainer2">
 							<label for="via2">Via 2</label>
-							<input type="text" class="form-control" id="via2" placeholder="Ex. Middelstum">
+							<input type="text" class="form-control" id="via2" placeholder="Ex. Norg">
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="viacontainer3">
 							<label for="via3">Via 3</label>
-							<input type="text" class="form-control" id="via3" placeholder="Ex. Ten Boer">
+							<input type="text" class="form-control" id="via3">
+						</div>
+						<div class="form-group" id="viacontainer4">
+							<label for="via4">Via 4</label>
+							<input type="text" class="form-control" id="via4">
+						</div>
+						<div class="form-group" id="viacontainer5">
+							<label for="via5">Via 5</label>
+							<input type="text" class="form-control" id="via5">
+						</div>
+						<div class="form-group" id="viacontainer6">
+							<label for="via6">Via 6</label>
+							<input type="text" class="form-control" id="via6">
+						</div>
+						<div class="form-group" id="viacontainer7">
+							<label for="via7">Via 7</label>
+							<input type="text" class="form-control" id="via7">
+						</div>
+						<div class="form-group" id="viacontainer8">
+							<label for="via8">Via 8</label>
+							<input type="text" class="form-control" id="via8">
+						</div>
+						<div class="form-group" id="viacontainer9">
+							<label for="via9">Via 9</label>
+							<input type="text" class="form-control" id="via9">
+						</div>
+						<div class="form-group" id="viacontainer10">
+							<label for="via10">Via 10</label>
+							<input type="text" class="form-control" id="via10">
+						</div>
+						<div class="form-group" id="viacontainer11">
+							<label for="via11">Via 11</label>
+							<input type="text" class="form-control" id="via11">
 						</div>
 						<div class="row">
 							<div class="col-md-3">
-								<!--button type="button" class="btn btn-link" onClick="addVia()">Add via</button-->
+								<button type="button" class="btn btn-link" onClick="addVia()">Add via</button>
 							</div>
 							<div class="col-md-3">
-								<!--button type="button" class="btn btn-link" onClick="resetForm()">Reset form</button-->
+								<button type="button" class="btn btn-link" onClick="removeVia()">Remove via</button>
 							</div>
 							<div class="col-md-3"></div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" onClick="gotoPage(2); planRoute()">Plan route</button>
+								<button type="button" class="btn btn-primary" onClick="validateRoute()">Plan route</button>
 							</div>
 						</div>
 					</form>
@@ -126,9 +158,9 @@
 						<div class="form-group">
 							<label for="starttime">Start time</label>
 							<div class="input-group" id="starttime">
-								<input type="number" class="form-control" id="starttimeH">
+								<input type="number" class="form-control" id="starttimeH" placeholder="18">
 								<span class="input-group-addon">:</span>
-								<input type="number" class="form-control" id="starttimeM" value="00">
+								<input type="number" class="form-control" id="starttimeM" placeholder="30">
 								<span class="input-group-addon">h</span>
 								<select id="starttimeD" class="selectpicker form-control">
 									<option value="0">Today</option>
