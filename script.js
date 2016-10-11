@@ -35,6 +35,8 @@ function geocodeRequest(address) {
 }
 
 function drawRoute(mode) {
+	L.clearLayers();
+	
 	if (mode === 0) {
 		var coords = [];
 
@@ -128,7 +130,7 @@ function planRoute() {
 		routeblocks.push(block);
 	}
 	
-	//drawRoute(0);
+	drawRoute(0);
 }
 
 function angleBetweenTwoPoints(point1, point2) {
