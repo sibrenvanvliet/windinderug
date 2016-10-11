@@ -121,14 +121,14 @@ function planRoute() {
 		var block = [];
 		for (var j = i*stepsize; j < endstep; j++) {
 			var coord = [];
-			coord.push(routeArray[j].x);
 			coord.push(routeArray[j].y);
+			coord.push(routeArray[j].x);
 			block.push(coord);
 		}
 		routeblocks.push(block);
 	}
 	
-	drawRoute(0);
+	//drawRoute(0);
 }
 
 function angleBetweenTwoPoints(point1, point2) {
@@ -371,6 +371,8 @@ function optimiseWeather () {
 		altWind = originalDirectionWinds;
 		recWind = reversedDirectionWinds;
 	}
+	
+	drawRoute(1);
 	
 	displayWindOptimisationResults('rec', recHeading, recWind);
 	displayWindOptimisationResults('alt', altHeading, altWind);
