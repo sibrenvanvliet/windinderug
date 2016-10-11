@@ -130,11 +130,11 @@ function planRoute() {
 		if (i < numberOfCoordinates) {
 			endstep = (i+1)*stepsize;
 		} else {
-			endstep = routeArray.length;
+			endstep = routeArray.length - 1;
 		}
 		
 		var block = [];
-		for (var j = i*stepsize; j < endstep; j++) {
+		for (var j = i*stepsize; j <= endstep; j++) {
 			var coord = [];
 			coord.push(routeArray[j].y);
 			coord.push(routeArray[j].x);
@@ -337,6 +337,14 @@ function originalWasBestRoute(route1, route2) {
 	return ((route1.tail - route2.tail) > (route1.head - route2.head));
 }
 
+function selectRoute(selectedDiv) {
+	if ((selectedDiv === "rec" && originalWins) || (selectedDiv === "alt" && !originalWins)) {
+		drawRoute(1);
+	} else {
+		drawRoute(2);
+	}
+}
+
 function optimiseWeather () {
 	// Gather wind information from coordinates using OpenWeatherMap API
 	var retries = 0;
@@ -373,7 +381,7 @@ function optimiseWeather () {
 	console.log("calculationTime for reversed direction: " + calculationTime);
 	var reversedDirectionWinds = calculateWindShares(1);
 	
-	var originalWins = originalWasBestRoute(originalDirectionWinds, reversedDirectionWinds);
+	originalWins = originalWasBestRoute(originalDirectionWinds, reversedDirectionWinds);
 	
 	if (originalWins) {
 		recHeading = vias[0];
@@ -387,7 +395,7 @@ function optimiseWeather () {
 		recWind = reversedDirectionWinds;
 	}
 	
-	drawRoute(1);
+	selectRoute("rec");
 	
 	displayWindOptimisationResults('rec', recHeading, recWind);
 	displayWindOptimisationResults('alt', altHeading, altWind);
