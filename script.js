@@ -144,6 +144,10 @@ function planRoute() {
 	}
 	
 	drawRoute(0);
+	
+	// Prepare next page
+	currentDate = new Date();
+	$("#starttimeH").val(currentDate.getHours());
 }
 
 function angleBetweenTwoPoints(point1, point2) {
@@ -174,8 +178,6 @@ $(document).ready(function(){
 }); 
 
 function validateTimeSpeed() {
-	currentDate = new Date();
-	
 	startM = parseInt($("#starttimeM").val());
 	startH = parseInt($("#starttimeH").val());
 	startD = parseInt($("select[id=starttimeD]").val());
