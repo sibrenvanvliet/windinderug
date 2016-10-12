@@ -135,7 +135,7 @@ function planRoute() {
 	
 	routeArray = skobblerResponse.route.routePoints;
 	
-	numberOfCoordinates = 20;
+	numberOfCoordinates = 40;
 	
 	stepsize = Math.floor(routeArray.length / (numberOfCoordinates + 1));
 	
