@@ -508,12 +508,14 @@ function optimiseWeather () {
 }
 
 function makeDirections(skobblerAdv) {
+	advstr = "";
 	for (var i = 0; i < skobblerAdv.length; i++) {
 		advice = skobblerAdv[i];
-		adviceString = adviceString
+		advstr = advstr
 			+ "After " + advice.distance + " meters<br />"
 			+ "<b>" + advice.instruction + "</b><br /><br />";
 	}
+	return advstr;
 }
 
 function displayDirections(selectedDiv) {
@@ -532,4 +534,5 @@ function displayDirections(selectedDiv) {
 	
 	console.log(adviceString);
 	$("#directionspane").html(adviceString);
+	gotoPage(4);
 }
