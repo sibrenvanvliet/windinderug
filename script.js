@@ -112,7 +112,7 @@ function getSkobblerResponse(reversed) {
 		if (reversed) {
 			viaIndex = nvias-i-1;
 		} else {
-			viaIndex = 1;
+			viaIndex = i;
 		}
 		
 		routerequest = routerequest + "&v" + viaIndex + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
