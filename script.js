@@ -10,6 +10,25 @@ function httpGet(theUrl) {
 	return xmlHttp.responseText;
 }
 
+function setCookie(cname, cvalue) {
+	document.cookie = cname + "=" + cvalue;
+}
+
+function getCookie(cname) {
+	var name = cname + "=";
+	var ca = document.cookie.split(';');
+	for(var i = 0; i <ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length,c.length);
+		}
+	}
+	return "";
+}
+
 function weatherForecastLatLong(lat, lon) {
 	var url = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&APPID=" + weatherKey;
 	return httpGet(url);
@@ -173,6 +192,28 @@ function angleBetweenTwoPoints(point1, point2) {
 	return angle;
 }
 
+function customisePage() {
+	document.title = getCookie("pageTitle");
+	$("#brandTitle").html(getCookie("pageTitle"));
+	$("#brandLogo").attr("src", getCookie("logoImage"));
+	$("body").css("background-color", getCookie("backgroundColour"));
+	$(".customisableText").css("color", getCookie("textColour"));
+	$(".customisableLink").css("color", getCookie("linkColour"));
+	$(".customisableButton").css("color", getCookie("backgroundColour"));
+	$(".customisableButton").css("background-color", getCookie("linkColour"));
+	$(".customisableButton").css("border-color", getCookie("linkColour"));
+}
+
+function initialiseCookies() {
+	if (getCookie("linkColour") === "") {
+		setCookie("pageTitle", "Weather adaptive cycling");
+		setCookie("logoImage", "default.jpg");
+		setCookie("backgroundColour", "#FFFFFF");
+		setCookie("textColour", "#333333");
+		setCookie("linkColour", "#337AB7");
+	}
+}
+
 $(document).ready(function(){
 	$("#warningJquery").hide();
 	$("#routeplanpage2").hide();
@@ -182,6 +223,8 @@ $(document).ready(function(){
 	for (var i = 3; i <= 11; i++) {
 		$("#viacontainer" + i).hide();
 	}
+	initialiseCookies();
+	customisePage();
 }); 
 
 function addVia() {

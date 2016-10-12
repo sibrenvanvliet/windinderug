@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+		<script src="customise.js"></script>
+		
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<title>Customisation panel</title>
+		
+		<style>
+		</style>
+	</head>
+	<body>
+		<form>
+			<div class="form-group">
+				<label for="startend">Page title</label>
+				<input type="text" class="form-control" id="pageTitle">
+			</div>
+			<div class="form-group">
+				<label for="startend">Brand logo image location</label>
+				<input type="text" class="form-control" id="logoImage">
+			</div>
+			<div class="form-group">
+				<label for="startend">Page background colour</label>
+				<input type="text" class="form-control" id="backgroundColour">
+			</div>
+			<div class="form-group">
+				<label for="startend">Text colour</label>
+				<input type="text" class="form-control" id="textColour">
+			</div>
+			<div class="form-group">
+				<label for="startend">Link colour</label>
+				<input type="text" class="form-control" id="linkColour">
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<button type="button" class="btn btn-link" onClick="resetDefaults()">Reset to defaults</button>
+				</div>
+				<div class="col-md-3">
+					<!--button type="button" class="btn btn-link" onClick="removeVia()">Remove via</button-->
+				</div>
+				<div class="col-md-3"></div>
+				<div class="col-md-3">
+					<button type="button" class="btn btn-primary" onClick="confirmCustomisation()">Confirm customistation</button>
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

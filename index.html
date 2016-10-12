@@ -66,6 +66,20 @@
 		#starttimeD {
 			width: 150px;
 		}
+		
+		#brandLogo {
+			max-height: 60px;
+			margin-top: -10px;
+		}
+		
+		.navbar {
+			height: 70px;
+		}
+		
+		#navbarlinks {
+			margin-top: 12px;
+			margin-right: 12px;
+		}
 		</style>
 	</head>
 	<body>
@@ -73,11 +87,15 @@
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.html">Wind in de RUG: Weather adaptive cycling</a>
+					<a class="navbar-brand"><img id="brandLogo" src="default.jpg"></a>
 				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="https://github.com/sibrenvanvliet/windinderug/issues"><i>Please leave feedback and report bugs here!</i></a></li>
+				<ul class="nav navbar-nav">
+					<li><a class="navbar-brand" id="brandTitle">Wind in de RUG: Weather adaptive cycling</a></li>
 				</ul>
+				<div class="nav navbar-nav navbar-right" id="navbarlinks">
+					<a href="customise.html"><b>Try out the customisation panel here.</b></a><br />
+					<a href="https://github.com/sibrenvanvliet/windinderug/issues"><i>Please leave feedback and report bugs here!</i></a>
+				</div>
 			</div>
 		</nav>
 		
@@ -95,63 +113,63 @@
 				<div id="routeplanpage1">
 					<form>
 						<div class="form-group">
-							<label for="startend">Start/end location</label>
+							<label for="startend" class="customisableText">Start/end location</label>
 							<input type="text" class="form-control" id="startend" placeholder="Ex. Grote Markt, Groningen">
 						</div>
 						<div class="form-group" id="viacontainer1">
-							<label for="via1">Via 1</label>
+							<label for="via1" class="customisableText">Via 1</label>
 							<input type="text" class="form-control" id="via1" placeholder="Ex. Zuidlaren">
 						</div>
 						<div class="form-group" id="viacontainer2">
-							<label for="via2">Via 2</label>
+							<label for="via2" class="customisableText">Via 2</label>
 							<input type="text" class="form-control" id="via2" placeholder="Ex. Norg">
 						</div>
 						<div class="form-group" id="viacontainer3">
-							<label for="via3">Via 3</label>
+							<label for="via3" class="customisableText">Via 3</label>
 							<input type="text" class="form-control" id="via3">
 						</div>
 						<div class="form-group" id="viacontainer4">
-							<label for="via4">Via 4</label>
+							<label for="via4" class="customisableText">Via 4</label>
 							<input type="text" class="form-control" id="via4">
 						</div>
 						<div class="form-group" id="viacontainer5">
-							<label for="via5">Via 5</label>
+							<label for="via5" class="customisableText">Via 5</label>
 							<input type="text" class="form-control" id="via5">
 						</div>
 						<div class="form-group" id="viacontainer6">
-							<label for="via6">Via 6</label>
+							<label for="via6" class="customisableText">Via 6</label>
 							<input type="text" class="form-control" id="via6">
 						</div>
 						<div class="form-group" id="viacontainer7">
-							<label for="via7">Via 7</label>
+							<label for="via7" class="customisableText">Via 7</label>
 							<input type="text" class="form-control" id="via7">
 						</div>
 						<div class="form-group" id="viacontainer8">
-							<label for="via8">Via 8</label>
+							<label for="via8" class="customisableText">Via 8</label>
 							<input type="text" class="form-control" id="via8">
 						</div>
 						<div class="form-group" id="viacontainer9">
-							<label for="via9">Via 9</label>
+							<label for="via9" class="customisableText">Via 9</label>
 							<input type="text" class="form-control" id="via9">
 						</div>
 						<div class="form-group" id="viacontainer10">
-							<label for="via10">Via 10</label>
+							<label for="via10" class="customisableText">Via 10</label>
 							<input type="text" class="form-control" id="via10">
 						</div>
 						<div class="form-group" id="viacontainer11">
-							<label for="via11">Via 11</label>
+							<label for="via11" class="customisableText">Via 11</label>
 							<input type="text" class="form-control" id="via11">
 						</div>
 						<div class="row">
 							<div class="col-md-3">
-								<button type="button" class="btn btn-link" onClick="addVia()">Add via</button>
+								<button type="button" class="btn btn-link customisableLink" onClick="addVia()">Add via</button>
 							</div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-link" onClick="removeVia()">Remove via</button>
+								<button type="button" class="btn btn-link customisableLink" onClick="removeVia()">Remove via</button>
 							</div>
 							<div class="col-md-3"></div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" onClick="validateRoute()">Plan route</button>
+								<button type="button" class="btn btn-primary customisableButton" onClick="validateRoute()">Plan route</button>
 							</div>
 						</div>
 					</form>
@@ -161,7 +179,7 @@
 				<div id="routeplanpage2">
 					<form>
 						<div class="form-group">
-							<label for="starttime">Start time</label>
+							<label for="starttime" class="customisableText">Start time</label>
 							<div class="input-group" id="starttime">
 								<input type="number" class="form-control" id="starttimeH" placeholder="18">
 								<span class="input-group-addon">:</span>
@@ -174,7 +192,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="starttime">Expected average speed</label>
+							<label for="starttime" class="customisableText">Expected average speed</label>
 							<div class="input-group" id="expavgspeed">
 								<input type="number" class="form-control" id="speed" value="18">
 								<span class="input-group-addon"></span>
@@ -193,7 +211,7 @@
 							</div>
 							<div class="col-md-3"></div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" onClick="validateTimeSpeed()">Optimise</button>
+								<button type="button" class="btn btn-primary customisableButton" onClick="validateTimeSpeed()">Optimise</button>
 							</div>
 						</div>
 					</form>
@@ -202,7 +220,7 @@
 				<!-- Page 3: Optimisation results -->
 				<div id="routeplanpage3">
 					<form>
-						<h2 id="msgOptim">Your route is being optimised.<br />Please wait...</h2>
+						<h2 id="msgOptim" class="customisableText">Your route is being optimised.<br />Please wait...</h2>
 						<span id="routeInfo"></span>
 						
 						<div class="resultDiv" id="recDiv" onClick="selectRoute('rec')">
