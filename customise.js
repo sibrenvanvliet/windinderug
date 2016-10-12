@@ -27,14 +27,7 @@ function resetDefaults() {
 	$("#backgroundColour").val("#FFFFFF");
 	$("#textColour").val("#333333");
 	$("#linkColour").val("#337AB7");
-}
-
-function previewCustomisation() {
-	setCookie("logoImage", $("#asdf").val());
-	setCookie("pageTitle", $("#pageTitle").val());
-	setCookie("backgroundColour", $("#backgroundColour").val());
-	setCookie("textColour", $("#textColour").val());
-	setCookie("linkColour", $("#linkColour").val());
+	previewCustomisation();
 }
 
 function previewCustomisation() {
