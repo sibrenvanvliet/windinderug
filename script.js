@@ -108,14 +108,14 @@ function getSkobblerResponse(reversed) {
 		+ "&advice=yes"
 		+ "&points=yes";
 	
-	if (reversed) {
-		for (var i = nvias-1; i >= 0; i--) {
-			routerequest = routerequest + "&v" + i + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
+	for (var i = 0; i < nvias; i++) {
+		if (reversed) {
+			viaIndex = nvias-i-1;
+		} else {
+			viaIndex = 1;
 		}
-	} else {
-		for (var i = 0; i < nvias; i++) {
-			routerequest = routerequest + "&v" + i + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
-		}
+		
+		routerequest = routerequest + "&v" + viaIndex + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
 	}
 	
 	return JSON.parse(httpGet(routerequest));
@@ -522,13 +522,15 @@ function displayDirections(selectedDiv) {
 	if ((selectedDiv === "rec" && originalWins) || (selectedDiv === "alt" && !originalWins)) {
 		adviceString = directions.original;
 		if (adviceString === "") {
-			adviceString = makeDirections(skobblerResponse.route.advisor);
+			directions.original = makeDirections(skobblerResponse.route.advisor);
+			adviceString = directions.original;
 		}
 	} else {
 		adviceString = directions.reversed;
 		if (adviceString === "") {
 			reversedSkobblerResponse = getSkobblerResponse(true);
-			adviceString = makeDirections(reversedSkobblerResponse.route.advisor);
+			directions.reversed = makeDirections(reversedSkobblerResponse.route.advisor);
+			adviceString = directions.reversed;
 		}
 	}
 	
