@@ -496,7 +496,7 @@ function optimiseWeather () {
 function displayDirections() {
 	directions = skobblerResponse.route.advisor;
 	adviceString = "";
-	for (var i = 0; i < 1; i++) {
+	for (var i = 0; i < 5; i++) {
 		advice = directions[i];
 		adviceString = adviceString
 			+ "After " + advice.distance + " meters<br />"
