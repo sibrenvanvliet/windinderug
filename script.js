@@ -129,7 +129,7 @@ function planRoute() {
 		routerequest = routerequest + "&v" + i + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
 	}
 	
-	var skobblerResponse = JSON.parse(httpGet(routerequest));
+	skobblerResponse = JSON.parse(httpGet(routerequest));
 	
 	console.log(skobblerResponse);
 	
