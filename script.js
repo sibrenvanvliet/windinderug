@@ -219,13 +219,13 @@ $(document).ready(function(){
 	$("#warningJquery").hide();
 	$("#routeplanpage2").hide();
 	$("#routeplanpage3").hide();
-	var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442");
 	nvias = 2;
 	for (var i = 3; i <= 11; i++) {
 		$("#viacontainer" + i).hide();
 	}
 	initialiseCookies();
 	customisePage();
+	var testResponse = httpGet("http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442");
 }); 
 
 function addVia() {
@@ -491,4 +491,18 @@ function optimiseWeather () {
 	$("#routeInfo").html("Starting " + (startD === 0 ? "today" : "tomorrow") + " at " + startH + ":" + (startM < 10 ? "0" : "") + startM + "h.<br />" 
 		+ "Distance: " + ((speedunit === "km/h") ? (routeLength.toFixed(1) + " kilometres. ") : ((routeLength/1.60934).toFixed(1) + "miles. "))
 		+ "Duration: " + Math.floor(routeDuration/60) + "h" + ((routeDuration % 60) < 10 ? "0" : "") + (routeDuration % 60) + "m.");
+}
+
+function displayDirections() {
+	directions = skobblerResponse.route.advisor;
+	adviceString = "";
+	for (var i = 0; i < directions.length; i++) {
+		advice = directions[i];
+		adviceString = adviceString
+			+ "After " + advice.distance + " meters<br />"
+			+ "<b>" + advice.instruction + "</b><br /><br />";
+	}
+	
+	setCookie("directions", adviceString);
+	window.open("directions.html");
 }
