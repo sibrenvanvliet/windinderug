@@ -523,7 +523,7 @@ function makeDirections(skobblerAdv) {
 			dist *= 1.09361;
 			
 			if (dist < 1760) {
-				diststr = dist + " yards";
+				diststr = Math.round(dist) + " yards";
 			} else {
 				diststr = (dist / 1760).toFixed(1) + " miles";
 			}
