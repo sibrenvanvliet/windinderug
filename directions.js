@@ -14,5 +14,7 @@ function getCookie(cname) {
 }
 
 $(document).ready(function(){
+	console.log("hoi");
+	console.log(getCookie("directions"));
 	$("body").html(getCookie("directions"));
 }); 

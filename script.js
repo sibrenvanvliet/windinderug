@@ -503,6 +503,8 @@ function displayDirections() {
 			+ "<b>" + advice.instruction + "</b><br /><br />";
 	}
 	
+	console.log(adviceString);
 	setCookie("directions", adviceString);
+	console.log(getCookie("directions"));
 	window.open("directions.html");
 }
