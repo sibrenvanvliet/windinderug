@@ -509,7 +509,7 @@ function optimiseWeather () {
 
 function makeDirections(skobblerAdv) {
 	for (var i = 0; i < skobblerAdv.length; i++) {
-		advice = directions[i];
+		advice = skobblerAdv[i];
 		adviceString = adviceString
 			+ "After " + advice.distance + " meters<br />"
 			+ "<b>" + advice.instruction + "</b><br /><br />";
