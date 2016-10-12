@@ -511,8 +511,26 @@ function makeDirections(skobblerAdv) {
 	advstr = "";
 	for (var i = 0; i < skobblerAdv.length; i++) {
 		advice = skobblerAdv[i];
+		dist = advice.distance;
+		
+		if (speedunit === "km/h") {
+			if (dist < 1000) {
+				diststr = dist + " metres";
+			} else {
+				diststr = (dist / 1000).toFixed(1) + " kilometres";
+			}
+		} else {
+			dist *= 1.09361;
+			
+			if (dist < 1760) {
+				diststr = dist + " yards";
+			} else {
+				diststr = (dist / 1760).toFixed(1) + " miles";
+			}
+		}
+		
 		advstr = advstr
-			+ "After " + advice.distance + " meters<br />"
+			+ "After " + diststr + "<br />"
 			+ "<b>" + advice.instruction + "</b><br /><br />";
 	}
 	return advstr;
