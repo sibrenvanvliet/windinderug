@@ -24,9 +24,12 @@ function discardChanges() {
 function resetDefaults() {
 	$("#pageTitle").val("Weather adaptive cycling");
 	$("#logoImage").val("default.jpg");
-	$("#backgroundColour").val("#FFFFFF");
-	$("#textColour").val("#333333");
-	$("#linkColour").val("#337AB7");
+	$("#backgroundColour").val("FFFFFF");
+	$("#textColour").val("333333");
+	$("#linkColour").val("337AB7");
+	document.getElementById('backgroundColour').jscolor.fromString("FFFFFF");
+	document.getElementById('textColour').jscolor.fromString("333333");
+	document.getElementById('linkColour').jscolor.fromString("337AB7");
 	previewCustomisation();
 }
 
@@ -56,5 +59,8 @@ $(document).ready(function(){
 	$("#backgroundColour").val(getCookie("backgroundColour"));
 	$("#textColour").val(getCookie("textColour"));
 	$("#linkColour").val(getCookie("linkColour"));
+	document.getElementById('backgroundColour').jscolor.fromString(getCookie("backgroundColour"));
+	document.getElementById('textColour').jscolor.fromString(getCookie("textColour"));
+	document.getElementById('linkColour').jscolor.fromString(getCookie("linkColour"));
 	previewCustomisation();
 }); 

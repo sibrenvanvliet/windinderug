@@ -135,7 +135,7 @@ function planRoute() {
 	
 	routeArray = skobblerResponse.route.routePoints;
 	
-	numberOfCoordinates = 40;
+	numberOfCoordinates = 30;
 	
 	stepsize = Math.floor(routeArray.length / (numberOfCoordinates + 1));
 	
@@ -205,12 +205,13 @@ function customisePage() {
 }
 
 function initialiseCookies() {
-	if (getCookie("linkColour") === "") {
+	if (getCookie("version") !== "1") {
 		setCookie("pageTitle", "Weather adaptive cycling");
 		setCookie("logoImage", "default.jpg");
-		setCookie("backgroundColour", "#FFFFFF");
-		setCookie("textColour", "#333333");
-		setCookie("linkColour", "#337AB7");
+		setCookie("backgroundColour", "FFFFFF");
+		setCookie("textColour", "333333");
+		setCookie("linkColour", "337AB7");
+		setCookie("version", "1");
 	}
 }
 
