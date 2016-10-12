@@ -516,7 +516,7 @@ function makeDirections(skobblerAdv) {
 	}
 }
 
-function displayDirections(selectedDir) {
+function displayDirections(selectedDiv) {
 	if ((selectedDiv === "rec" && originalWins) || (selectedDiv === "alt" && !originalWins)) {
 		adviceString = directions.original;
 		if (adviceString === "") {

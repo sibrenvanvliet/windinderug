@@ -81,10 +81,6 @@
 			margin-top: 12px;
 			margin-right: 12px;
 		}
-		
-		.directionsLink {
-			text-align: right;
-		}
 		</style>
 	</head>
 	<body>
@@ -236,7 +232,12 @@
 								<div class="progress-bar progress-bar-warning" id="recCross" style="width: 0%"></div>
 								<div class="progress-bar progress-bar-danger" id="recHead" style="width: 0%"></div>
 							</div>
-							<button type="button" class="btn btn-link directionsLink customisableLink" onClick="displayDirections('rec')">Get directions</button>
+							<div class="row">
+								<div class="col-md-9"></div>
+								<div class="col-md-3">
+									<button type="button" class="btn btn-link directionsLink customisableLink" onClick="displayDirections('rec')">Get directions</button>
+								</div>
+							</div>
 						</div>
 						
 						<div class="resultDiv" id="altDiv" onClick="selectRoute('alt')">
@@ -247,7 +248,12 @@
 								<div class="progress-bar progress-bar-warning" id="altCross" style="width: 0%"></div>
 								<div class="progress-bar progress-bar-danger" id="altHead" style="width: 0%"></div>
 							</div>
-							<button type="button" class="btn btn-link directionsLink customisableLink" onClick="displayDirections('alt')">Get directions</button>
+							<div class="row">
+								<div class="col-md-9"></div>
+								<div class="col-md-3">
+									<button type="button" class="btn btn-link directionsLink customisableLink" onClick="displayDirections('alt')">Get directions</button>
+								</div>
+							</div>
 						</div>
 						
 						<div class="row">
