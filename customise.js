@@ -47,7 +47,6 @@ function confirmCustomisation() {
 	setCookie("backgroundColour", $("#backgroundColour").val());
 	setCookie("textColour", $("#textColour").val());
 	setCookie("linkColour", $("#linkColour").val());
-	
 	document.location.href = "index.html";
 }
 
