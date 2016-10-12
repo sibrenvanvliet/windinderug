@@ -43,6 +43,7 @@ function gotoPage(page) {
 	$("#routeplanpage1").hide();
 	$("#routeplanpage2").hide();
 	$("#routeplanpage3").hide();
+	$("#routeplanpage4").hide();
 	$("#routeplanpage" + page).show();
 }
 
@@ -99,6 +100,27 @@ function validateRoute() {
 	gotoPage(2);
 }
 
+function getSkobblerResponse(reversed) {
+	var routerequest = "http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?"
+		+ "start=" + geocodes[0].lat + "," + geocodes[0].lng
+		+ "&dest=" + endcoordinates.lat + "," + endcoordinates.lng
+		+ "&profile=bicycle"
+		+ "&advice=yes"
+		+ "&points=yes";
+	
+	if (reversed) {
+		for (var i = nvias-1; i >= 0; i--) {
+			routerequest = routerequest + "&v" + i + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
+		}
+	} else {
+		for (var i = 0; i < nvias; i++) {
+			routerequest = routerequest + "&v" + i + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
+		}
+	}
+	
+	return JSON.parse(httpGet(routerequest));
+}
+
 /***** ROUTE PLANNING *****/
 function planRoute() {
 	startend = $("#startend").val();
@@ -114,22 +136,11 @@ function planRoute() {
 		geocodes.push(geocodeRequest(vias[i]));
 	}
 	
-	var endcoordinates = {};
+	endcoordinates = {};
 	endcoordinates.lat = geocodes[0].lat+0.00001;
 	endcoordinates.lng = geocodes[0].lng+0.00001;
 	
-	var routerequest = "http://1071b1a66d18a54cc861930a397ed442.tor.skobbler.net/tor/RSngx/calcroute/json/20_5/en/1071b1a66d18a54cc861930a397ed442?"
-		+ "start=" + geocodes[0].lat + "," + geocodes[0].lng
-		+ "&dest=" + endcoordinates.lat + "," + endcoordinates.lng
-		+ "&profile=bicycle"
-		+ "&advice=yes"
-		+ "&points=yes";
-	
-	for (var i = 0; i < nvias; i++) {
-		routerequest = routerequest + "&v" + i + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
-	}
-	
-	skobblerResponse = JSON.parse(httpGet(routerequest));
+	skobblerResponse = getSkobblerResponse(false);
 	
 	console.log(skobblerResponse);
 	
@@ -217,8 +228,8 @@ function initialiseCookies() {
 
 $(document).ready(function(){
 	$("#warningJquery").hide();
-	$("#routeplanpage2").hide();
-	$("#routeplanpage3").hide();
+	gotoPage(1);
+	$(".directionsLink").hide();
 	nvias = 2;
 	for (var i = 3; i <= 11; i++) {
 		$("#viacontainer" + i).hide();
@@ -491,20 +502,34 @@ function optimiseWeather () {
 	$("#routeInfo").html("Starting " + (startD === 0 ? "today" : "tomorrow") + " at " + startH + ":" + (startM < 10 ? "0" : "") + startM + "h.<br />" 
 		+ "Distance: " + ((speedunit === "km/h") ? (routeLength.toFixed(1) + " kilometres. ") : ((routeLength/1.60934).toFixed(1) + "miles. "))
 		+ "Duration: " + Math.floor(routeDuration/60) + "h" + ((routeDuration % 60) < 10 ? "0" : "") + (routeDuration % 60) + "m.");
+	
+	directions = {"original": "", "reversed": ""};
+	$(".directionsLink").show();
 }
 
-function displayDirections() {
-	directions = skobblerResponse.route.advisor;
-	adviceString = "";
-	for (var i = 0; i < 5; i++) {
+function makeDirections(skobblerAdv) {
+	for (var i = 0; i < skobblerAdv.length; i++) {
 		advice = directions[i];
 		adviceString = adviceString
 			+ "After " + advice.distance + " meters<br />"
 			+ "<b>" + advice.instruction + "</b><br /><br />";
 	}
+}
+
+function displayDirections(selectedDir) {
+	if ((selectedDiv === "rec" && originalWins) || (selectedDiv === "alt" && !originalWins)) {
+		adviceString = directions.original;
+		if (adviceString === "") {
+			adviceString = makeDirections(skobblerResponse.route.advisor);
+		}
+	} else {
+		adviceString = directions.reversed;
+		if (adviceString === "") {
+			reversedSkobblerResponse = getSkobblerResponse(true);
+			adviceString = makeDirections(reversedSkobblerResponse.route.advisor);
+		}
+	}
 	
 	console.log(adviceString);
-	setCookie("directions", adviceString);
-	console.log(getCookie("directions"));
-	window.open("directions.html");
+	$("#directionspane").html(adviceString);
 }
