@@ -118,6 +118,7 @@ function getSkobblerResponse(reversed) {
 		routerequest = routerequest + "&v" + viaIndex + "=" + geocodes[i+1].lat + "," + geocodes[i+1].lng;
 	}
 	
+	console.log(routerequest);
 	return JSON.parse(httpGet(routerequest));
 }
 
