@@ -508,6 +508,47 @@ function optimiseWeather () {
 	$(".directionsLink").show();
 }
 
+function directionImgHtml(name) {
+	return '<img class="directionImg" src="img/' + name + '.png">';
+}
+
+function directionImg(adv) {
+	var at = parseInt(adv.adviceType);
+	
+	// Return destination image
+	if (at <= 3) {
+		return directionImgHtml("d");
+	}
+	
+	// Return U-turn image
+	if (at == 4) {
+		return directionImgHtml("c7");
+	}
+	
+	// Return crossroads image
+	if ((at == 9 || at == 11 || at == 13) && adv.turnDirection != 8) {
+		return directionImgHtml("c" + adv.turnDirection);
+	}
+	
+	// Return roundabout image
+	if (at == 10) {
+		var en = parseInt(adv.exitNumber);
+		if (en == 1 || en == 2) {
+			return directionImgHtml("r" + en);
+		}
+		if (en > 2) {
+			return directionImgHtml("r3");
+		}
+	}
+	
+	// Return straight on image
+	if (at == 12 || at == 14) {
+		return directionImgHtml("c0");
+	}
+	
+	return "";
+}
+
 function makeDirections(skobblerAdv) {
 	advstr = "";
 	for (var i = 0; i < skobblerAdv.length; i++) {
@@ -516,23 +557,23 @@ function makeDirections(skobblerAdv) {
 		
 		if (speedunit === "km/h") {
 			if (dist < 1000) {
-				diststr = dist + " metres";
+				diststr = dist + " m";
 			} else {
-				diststr = (dist / 1000).toFixed(1) + " kilometres";
+				diststr = (dist / 1000).toFixed(1) + " km";
 			}
 		} else {
 			dist *= 1.09361;
 			
 			if (dist < 1760) {
-				diststr = Math.round(dist) + " yards";
+				diststr = Math.round(dist) + " yd";
 			} else {
-				diststr = (dist / 1760).toFixed(1) + " miles";
+				diststr = (dist / 1760).toFixed(1) + " mi";
 			}
 		}
 		
 		advstr = advstr
-			+ "After " + diststr + "<br />"
-			+ "<b>" + advice.instruction + "</b><br /><br />";
+			+ '<div class="row"><div class="col-md-9"><hr></div><div class="col-md-3">' + diststr + '</div></div>'
+			+ '<div class="row"><div class="col-md-3">' + directionImg(advice) + '</div><div class="col-md-9"><b>' + advice.instruction + '</b></div></div>';
 	}
 	return advstr;
 }
