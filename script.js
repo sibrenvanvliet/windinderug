@@ -572,8 +572,8 @@ function makeDirections(skobblerAdv) {
 		}
 		
 		advstr = advstr
-			+ '<div class="row"><div class="col-md-11"><hr></div><div class="col-md-1">' + diststr + '</div></div>'
-			+ '<div class="row"><div class="col-md-1">' + directionImg(advice) + '</div><div class="col-md-11"><b>' + advice.instruction + '</b></div></div>';
+			+ '<div class="row"><div class="col-md-10"><hr></div><div class="col-md-2">' + diststr + '</div></div>'
+			+ '<div class="row"><div class="col-md-2">' + directionImg(advice) + '</div><div class="col-md-10"><b>' + advice.instruction + '</b></div></div>';
 	}
 	return advstr;
 }
